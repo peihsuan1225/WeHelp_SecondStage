@@ -57,4 +57,4 @@ conn.commit()
 cursor.close()
 conn.close()
 
-print("成功")
+print("建立table並賦值成功")
