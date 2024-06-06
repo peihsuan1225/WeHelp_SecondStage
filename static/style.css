@@ -70,7 +70,6 @@ body{
     padding: 10px 0;
 }
 .heroSection__text--small{
-    font-size: 16px;
     height: 13.3px;
     line-height: 13.3px;
     margin: 10px;
@@ -170,39 +169,57 @@ body{
 /* Attraction Display Area */
 .attractionDisplayArea{
     display: grid;
-    grid-template-columns: 270px;
+    grid-template-columns: 270px 270px 270px 270px;
     grid-template-rows: 242px;
     gap: 10px;
 }
 .attraction{
     width: 270px;
     height: 242px;
-    border-radius: 5px
+    border-radius: 5px;
+    position: relative;
+    border: 1px;
+    border-color: #E8E8E8; 
 }
 .attraction__text--name{
     color: #FFFFFF;
-    font-size: 16px;
     background-color: black;
     opacity: 0.6;
     height: 40px;
     font-weight: bold;
+    position: absolute;
+    bottom: 45px;
+    width: 100%;
 }
 .attraction__text--info{
     color: #757575;
     background-color: #FFFFFF;
     height: 45px;
-    font-size: 16px;
+    display:flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
+/* .attraction__text--mrt{
+    text-align: start;
+}
+.attraction__text--cat{
+    text-align: end;
+} */
 
 /* Footer */
+body>footer{
+    position: sticky;
+    top: 100vh;
+}
 footer{
-    position: absolute;
+    /* position: absolute; */
     bottom: 0;
     width: 100vw;
     height: 104px;
     background-color: #757575;
     color: #FFFFFF;
-    font-size: 16px;
     font-weight: bold;
     line-height: 104px;
     text-align: center;
