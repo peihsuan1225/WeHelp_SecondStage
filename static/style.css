@@ -171,25 +171,29 @@ body{
     display: grid;
     grid-template-columns: 270px 270px 270px 270px;
     grid-template-rows: 242px;
-    gap: 10px;
+    gap: 30px;
+    margin: 20px 375px 0 375px;
 }
 .attraction{
     width: 270px;
     height: 242px;
     border-radius: 5px;
     position: relative;
-    border: 1px;
-    border-color: #E8E8E8; 
+    border: #E8E8E8 1px solid;
+    background-size: cover;
+    cursor: pointer;
 }
-.attraction__text--name{
+.attraction__text--nameDiv{
     color: #FFFFFF;
-    background-color: black;
-    opacity: 0.6;
+    background-color: rgba(0, 0, 0, 0.6);
     height: 40px;
     font-weight: bold;
     position: absolute;
     bottom: 45px;
     width: 100%;
+}
+.attraction__text--name{
+    margin: 10px;
 }
 .attraction__text--info{
     color: #757575;
@@ -201,18 +205,14 @@ body{
     bottom: 0;
     width: 100%;
 }
-/* .attraction__text--mrt{
-    text-align: start;
+.attraction__text--mrt{
+    margin:10px;
 }
 .attraction__text--cat{
-    text-align: end;
-} */
+    margin:10px;
+}
 
 /* Footer */
-body>footer{
-    position: sticky;
-    top: 100vh;
-}
 footer{
     /* position: absolute; */
     bottom: 0;

@@ -63,8 +63,10 @@ document.addEventListener("DOMContentLoaded", () =>{
                     attractionDiv.className = "attraction";
 
                     const attractionNameDiv = document.createElement("div");
-                    attractionNameDiv.className = "attraction__text--name";
-                    attractionNameDiv.textContent = attraction.name;
+                    attractionNameDiv.className = "attraction__text--nameDiv";
+                    const attractionNametextDiv = document.createElement("div");
+                    attractionNametextDiv.className = "attraction__text--name";
+                    attractionNametextDiv.textContent = attraction.name;
 
                     const attractionInfoDiv = document.createElement("div");
                     attractionInfoDiv.className = "attraction__text--info";
@@ -78,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () =>{
                     attractionCatDiv.textContent = attraction.category;
 
                     attractionDiv.appendChild(attractionNameDiv);
+                    attractionNameDiv.appendChild(attractionNametextDiv);
                     attractionDiv.appendChild(attractionInfoDiv);
                     attractionInfoDiv.appendChild(attractionMrtDiv);
                     attractionInfoDiv.appendChild(attractionCatDiv);
