@@ -48,51 +48,192 @@ document.addEventListener("DOMContentLoaded", () =>{
 // 顯示景點窗格
 document.addEventListener("DOMContentLoaded", () =>{
     const attractionArea = document.querySelector(".attractionDisplayArea");
-    
-    fetch("/api/attractions")
-        .then(response =>{
-            if(!response.ok){
-                throw new Error("連線回應不成功"+response.statusText); 
-            }
-            return response.json();
-        })
-        .then(data =>{
-            if(data.data && Array.isArray(data.data)){
-                data.data.forEach(attraction => {
-                    const attractionDiv = document.createElement("div");
-                    attractionDiv.className = "attraction";
+    let nextPage = 0;
+    let loading = false;
 
-                    const attractionNameDiv = document.createElement("div");
-                    attractionNameDiv.className = "attraction__text--nameDiv";
-                    const attractionNametextDiv = document.createElement("div");
-                    attractionNametextDiv.className = "attraction__text--name";
-                    attractionNametextDiv.textContent = attraction.name;
+    const loadAttractions = (page) => {
+        if (loading) return;
+        loading = true;
 
-                    const attractionInfoDiv = document.createElement("div");
-                    attractionInfoDiv.className = "attraction__text--info";
+        fetch("/api/attractions?page="+page)
+            .then(response =>{
+                if(!response.ok){
+                    throw new Error("連線回應不成功" + response.statusText); 
+                }
+                
+                return response.json();
+                
+            })
+            .then(data =>{
+                if(data.data && Array.isArray(data.data)){
+                    data.data.forEach(attraction => {
+                        const attractionDiv = document.createElement("div");
+                        attractionDiv.className = "attraction";
+
+                        const attractionNameDiv = document.createElement("div");
+                        attractionNameDiv.className = "attraction__text--nameDiv";
+                        const attractionNametextDiv = document.createElement("div");
+                        attractionNametextDiv.className = "attraction__text--name";
+                        attractionNametextDiv.textContent = attraction.name;
+
+                        const attractionInfoDiv = document.createElement("div");
+                        attractionInfoDiv.className = "attraction__text--info";
+                        
+                        const attractionMrtDiv = document.createElement("div");
+                        attractionMrtDiv.className ="attraction__text--mrt";
+                        attractionMrtDiv.textContent = attraction.mrt;
+
+                        const attractionCatDiv = document.createElement("div");
+                        attractionCatDiv.className = "attraction__text--cat";
+                        attractionCatDiv.textContent = attraction.category;
+
+                        attractionDiv.appendChild(attractionNameDiv);
+                        attractionNameDiv.appendChild(attractionNametextDiv);
+                        attractionDiv.appendChild(attractionInfoDiv);
+                        attractionInfoDiv.appendChild(attractionMrtDiv);
+                        attractionInfoDiv.appendChild(attractionCatDiv);
+
+                        if(attraction.images && attraction.images.length >0){
+                            attractionDiv.style.backgroundImage = `url(${attraction.images[0]})`;
+                        }
+                        attractionArea.appendChild(attractionDiv);
+                    });
                     
-                    const attractionMrtDiv = document.createElement("div");
-                    attractionMrtDiv.className ="attraction__text--mrt";
-                    attractionMrtDiv.textContent = attraction.mrt;
-
-                    const attractionCatDiv = document.createElement("div");
-                    attractionCatDiv.className = "attraction__text--cat";
-                    attractionCatDiv.textContent = attraction.category;
-
-                    attractionDiv.appendChild(attractionNameDiv);
-                    attractionNameDiv.appendChild(attractionNametextDiv);
-                    attractionDiv.appendChild(attractionInfoDiv);
-                    attractionInfoDiv.appendChild(attractionMrtDiv);
-                    attractionInfoDiv.appendChild(attractionCatDiv);
-
-                    if(attraction.images && attraction.images.length >0){
-                        attractionDiv.style.backgroundImage = `url(${attraction.images[0]})`;
+                    nextPage = data.nextPage;
+                    if(nextPage !== null){
+                        observeLastAttraction();
+                        console.log("naxepage =" + nextPage);
                     }
-                    attractionArea.appendChild(attractionDiv);
-                });       
-            }
-        })
-        .catch(error => {
-            console.error("獲取景點數據時出錯:", error);
-        });    
+                }
+                loading = false;
+            })
+            .catch(error => {
+                console.error("獲取景點數據時出錯:", error);
+                loading = false;
+            });   
+    };
+    const observeLastAttraction = () =>{
+        const attractions =document.querySelectorAll(".attraction");
+        const lastAttraction = attractions[attractions.length - 1];
+        if(lastAttraction){
+            const observer = new IntersectionObserver(entries =>{
+                if (entries[0].isIntersecting){
+                    observer.disconnect();
+                    if (nextPage !== null){
+                        loadAttractions(nextPage);
+                    }
+                }
+            });
+            observer.observe(lastAttraction);
+        }
+    };
+    loadAttractions(nextPage);
 });
+
+function searchKeyword(){
+    const attractionArea = document.querySelector(".attractionDisplayArea");
+    let nextPage = 0;
+    let loading = false;
+    let noResultsMessageShown = false;
+
+    const loadAttractions = (page) => {
+        if (loading) return;
+        loading = true;
+        
+        let input = document.querySelector("#input_keyword").value.trim();
+        fetch("/api/attractions?keyword=" + input + "&page=" + page)
+            // console.log("/api/attractions?keyword=" + input + "&page=" + page)
+            .then(response =>{
+                if(!response.ok){
+                    const noResultsMessage = document.createElement("div");
+                    noResultsMessage.className = "attraction__noResults";
+                    noResultsMessage.textContent ="查無對應景點";
+                    attractionArea.innerHTML = "";
+                    attractionArea.appendChild(noResultsMessage);
+                    noResultsMessageShown = true;
+                    throw new Error("連線回應不成功" + response.statusText);
+                }
+                
+                return response.json();
+                
+            })
+            .then(data =>{
+                if(data.data && Array.isArray(data.data)){
+                    if(page === 0){
+                        attractionArea.innerHTML = "";
+                    }
+                    
+                    data.data.forEach(attraction => {
+                        const attractionDiv = document.createElement("div");
+                        attractionDiv.className = "attraction";
+
+                        const attractionNameDiv = document.createElement("div");
+                        attractionNameDiv.className = "attraction__text--nameDiv";
+                        const attractionNametextDiv = document.createElement("div");
+                        attractionNametextDiv.className = "attraction__text--name";
+                        attractionNametextDiv.textContent = attraction.name;
+
+                        const attractionInfoDiv = document.createElement("div");
+                        attractionInfoDiv.className = "attraction__text--info";
+                        
+                        const attractionMrtDiv = document.createElement("div");
+                        attractionMrtDiv.className ="attraction__text--mrt";
+                        attractionMrtDiv.textContent = attraction.mrt;
+
+                        const attractionCatDiv = document.createElement("div");
+                        attractionCatDiv.className = "attraction__text--cat";
+                        attractionCatDiv.textContent = attraction.category;
+
+                        attractionDiv.appendChild(attractionNameDiv);
+                        attractionNameDiv.appendChild(attractionNametextDiv);
+                        attractionDiv.appendChild(attractionInfoDiv);
+                        attractionInfoDiv.appendChild(attractionMrtDiv);
+                        attractionInfoDiv.appendChild(attractionCatDiv);
+
+                        if(attraction.images && attraction.images.length >0){
+                            attractionDiv.style.backgroundImage = `url(${attraction.images[0]})`;
+                        }
+                        attractionArea.appendChild(attractionDiv);
+                    });
+                    
+                    nextPage = data.nextPage;
+                    if(nextPage !== null){
+                        observeLastAttraction();
+                        console.log("naxepage =" + nextPage);
+                    }
+                }
+                else{
+                    
+                }
+                loading = false;
+            })
+            .catch(error => {
+                console.error("獲取景點數據時出錯:", error);
+                loading = false;
+            });   
+    };
+
+    const observeLastAttraction = () =>{
+        const attractions =document.querySelectorAll(".attraction");
+        const lastAttraction = attractions[attractions.length - 1];
+        if(lastAttraction){
+            const observer = new IntersectionObserver(entries =>{
+                if (entries[0].isIntersecting){
+                    observer.disconnect();
+                    if (nextPage !== null){
+                        loadAttractions(nextPage);
+                    }
+                }
+            });
+            observer.observe(lastAttraction);
+        }
+    };
+
+    let input = document.querySelector("#input_keyword").value.trim();
+    if (input ===""){
+        alert("查詢內容不能為空");
+    }
+    else{
+        loadAttractions(nextPage);
+    }
+}

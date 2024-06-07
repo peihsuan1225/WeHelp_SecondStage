@@ -211,6 +211,11 @@ body{
 .attraction__text--cat{
     margin:10px;
 }
+.attraction__noResults{
+    color: #757575;
+    font-weight: bold; 
+    text-align: center;
+}
 
 /* Footer */
 footer{
