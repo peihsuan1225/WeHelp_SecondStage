@@ -1,11 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Index</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css"/>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+      <div class="navbar__block">
+          <div class="navbar__text">台北一日遊</div>
+          <div class="navbar__btnBlock">
+              <button class="navbar__btn">預定行程</button>
+              <button class="navbar__btn">登入/註冊</button>
+          </div>
+      </div>
+    </div>
+    <!-- Hero Section -->
+    <div class="heroSection">
+        <div class="heroSection_block">
+            <div class="heroSection__text--big">輕鬆享受台北一日悠閒</div>
+            <div class="heroSection__text--small">探索每個角落，體驗城市的深度旅遊行程</div>
+            <div class="heroSection_seachbar">
+                <input type="search" id="input_keyword" class="heroSection__input" placeholder="輸入景點名稱查詢"/>
+                <button class="heroSection__btn" onclick="searchKeyword('input_keyword')" ><img src="/static/pic/search.png" alt="搜索" ></button>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+      <div class="main__content">
+        <!-- List Bar -->
+        <div class="listbar">
+            <div class="listbar__btn--left"></div>
+            <div class="listbar_text" onclick="searchKeyword('input_keyword')" ></div>
+            <div class="listbar__btn--right"></div>
+        </div>
+        <!-- Attraction Display Area -->
+        <div class="attractionDisplayArea">
+          <!-- 裡面顯示景點窗格 -->
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <footer>COPYRIGHT © 2021 台北一日遊</footer>
+
+    <script src="/static/script.js"></script>
+  </body>
 </html>

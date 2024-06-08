@@ -3,6 +3,7 @@ from fastapi.responses import FileResponse, JSONResponse
 import mysql.connector
 import mysql.connector.pooling
 import json
+from fastapi.staticfiles import StaticFiles
 app=FastAPI()
 
 # 資料庫的連線資訊
@@ -18,6 +19,8 @@ connection_pool = mysql.connector.pooling.MySQLConnectionPool(
 	pool_size = 5,
 	**db_config
 )
+
+app.mount("/static", StaticFiles(directory="static",html=True), name="static")
 
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)
