@@ -20,7 +20,7 @@ connection_pool = mysql.connector.pooling.MySQLConnectionPool(
 	**db_config
 )
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static",html=True), name="static")
 
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)
