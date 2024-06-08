@@ -4,7 +4,7 @@ body{
     padding: 0;
     font-size: 16px;
     font-family: 'Noto Sans TC', sans-serif;
-    width: 1920px;
+    width: 100vw;
 }
 
 /* Navigation Bar */
@@ -12,7 +12,11 @@ body{
     height: 54px;
     position: fixed;
     background-color: #FFFFFF;
-    width: 100%;
+    width: 100vw;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .navbar__block{
     display: flex;
@@ -20,9 +24,6 @@ body{
     height: 34px;
     align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
-    margin-left: 360px;
-    position: fixed;
 }
 .navbar__text{
     color: #448899;
@@ -51,13 +52,13 @@ body{
     background-position: top 54px center;
     background-repeat: no-repeat;
     height: 320px;
-    width: 1920px;
+    width: 100vw;
     padding-top: 54px;
     display: flex;
     align-items: center;
+    justify-content: center; 
 }
 .heroSection_block{ 
-    margin-left: 360px;
     width: 1200px;
 }
 .heroSection__text--big{
@@ -101,8 +102,10 @@ body{
 }
 
 .main{
-    width: 1920px;
+    width: 100vw;
     margin: 40px auto;
+    display: flex;
+    justify-content: center;
 }
 /* List Bar */
 .listbar{
@@ -172,7 +175,8 @@ body{
     grid-template-columns: 270px 270px 270px 270px;
     grid-template-rows: 242px;
     gap: 30px;
-    margin: 20px 375px 0 375px;
+    margin: 20px auto 0 auto;
+    justify-content: center; 
 }
 .attraction{
     width: 270px;
@@ -228,4 +232,66 @@ footer{
     font-weight: bold;
     line-height: 104px;
     text-align: center;
+}
+
+/* 當視窗大小介於600-1200套用以下css */
+@media (min-width: 600px) and (max-width: 1200px){
+    /* Navigation Bar */
+    .navbar__block{
+        width: 600px;
+    }
+    /* Hero Section */
+    .heroSection_block{
+        width: 600px;
+    }
+    /* List Bar */
+    .listbar{
+        width: 600px;
+    }
+    .listbar_text{
+        width: 506px;
+    }
+    /* Attraction Display Area */
+    .attractionDisplayArea{
+        grid-template-columns: 270px 270px;
+        gap: 30px;
+        margin: 20px 315px 0 315px;
+    }
+}
+
+/* 當視窗大小介於360-600套用以下css */
+@media (min-width: 360px) and (max-width: 600px){
+    /* Navigation Bar */
+    .navbar__block{
+        width: 360px;
+    }
+    /* Hero Section */
+    .heroSection_block{
+        width: 360px;
+    }
+    .heroSection_seachbar{
+        width: 285px;
+    }
+    .heroSection__input{
+        width: 230px;
+    }
+    /* List Bar */
+    .listbar{
+        width: 360px;
+    }
+    .listbar_text{
+        width: 266px;
+    }
+    /* Attraction Display Area */
+    .attractionDisplayArea{
+        grid-template-columns: 322px;
+        grid-template-rows: 280px;
+        gap: 15px; 
+        margin: 15px 15px 0 15px;
+    }
+    .attraction{
+        width: 322px;
+        height: 280px;
+    }
+    
 }
