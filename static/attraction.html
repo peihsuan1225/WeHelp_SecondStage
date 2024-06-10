@@ -4,8 +4,62 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/base.css">
 </head>
 <body>
-  
+    <!-- Navigation Bar -->
+    <div class="navbar_insert"></div>
+    <div class="main">
+      <div class="section">
+        <!-- Picture Display Area -->
+        <div class="sectionPicture">
+          <div class="sectionPicture__btn--left"></div>
+          <div class="sectionPicture__btn--right"></div>
+          <div class="sectionPicture__dotsBlock">
+            <!-- dot div -->
+          </div>
+        </div>
+        <!-- sectionProfile -->
+        <div class="sectionProfile">
+          <div class="sectionProfile__block--attraction">
+            <div class="sectionProfile__text--attractionName"></div>
+            <div class="sectionProfile__text--attractionIntro"></div>
+          </div>
+          <div class="sectionProfile__block--book">
+            <div class="sectionProfile__text--bookTitle">訂購導覽行程</div>
+            <div class="sectionProfile__text--bookIntro">以此景點為中心的一日行程，帶您探索城市角落故事</div>
+            <div class="sectionProfile__bookdate">
+              <div class="sectionProfile__text--dateTitle">選擇日期：</div>
+              <input type="date" class="sectionProfile__input--bookdate" />
+            </div>
+            <div class="sectionProfile__bookTime">
+              <div class="sectionProfile__text--timeTitle">選擇時間：</div>
+              <input type="radio" class="sectionProfile__input--bookTime" />
+            </div>
+            <div class="sectionProfile__bookPrice">
+              <div class="sectionProfile__text--priceTitle">導覽費用：</div>
+              <div class="sectionProfile__text--bookPrice"></div>
+            </div>
+            <div class="sectionProfile__btn"></div>
+          </div>
+        </div>
+      </div>
+      <hr class="separator" />
+      <!-- Attraction Informations -->
+      <div class="infos">
+        <div class="infos__text--description"></div>
+        <div class="infos__block--address">
+          <div class="infos__text--addressTitle">景點地址：</div>
+          <div class="infos__text--address"></div>
+        </div>
+        <div class="infos__block--transport">
+          <div class="infos__text--transportTitle">交通方式：</div>
+          <div class="infos__text--transport"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <div class="footer_insert"></div>
+    <script src="/static/js/base.js" defer></script>
 </body>
 </html>

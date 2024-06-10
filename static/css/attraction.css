@@ -1,0 +1,170 @@
+/* Navigation Bar */
+.navbar{
+    border-bottom: 1px;
+    border-color: #E8E8E8;
+}
+
+.main{
+    width: 1200px;
+    margin: 40px auto;
+}
+  
+.section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Picture Display Area */
+.sectionPicture{
+    width: 540px;
+    height: 406px;
+    background-image: url("/static/pic/thumbnail.png");
+    background-size: cover; 
+}
+.sectionPicture__btn--left{
+    background-image: url(/static/pic/btn_leftArrow.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 36px;
+    height: 36px;
+    opacity: 0.75;
+    border-radius: 100%;
+    border: 3px 0;
+    margin-left: 10px;
+}
+.sectionPicture__btn--right{
+    background-image: url(/static/pic/right\ arrow.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 36px;
+    height: 36px;
+    opacity: 0.75;
+    border-radius: 100%;
+    border: 3px 0;
+    margin-right: 10px;
+}
+.sectionPicture__dotsBlock{
+    height: 12px;
+    top: 378px;
+    opacity: 0.75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.sectionPicture__dot{
+    width: 12px;
+    height: 12px;
+    background-color: #FFFFFF;
+    border-radius: 100%;
+    padding: 0 6px;
+}
+.sectionPicture__dot.black{
+    background-color: black;
+    border: 1px solid #FFFFFF;
+}
+
+.sectionProfile {
+/* Add your styles here */
+}
+
+.sectionProfile__block--attraction {
+/* Add your styles here */
+}
+
+.sectionProfile__text--attractionName {
+/* Add your styles here */
+}
+
+.sectionProfile__text--attractionIntro {
+/* Add your styles here */
+}
+
+.sectionProfile__block--book {
+/* Add your styles here */
+}
+
+.sectionProfile__text--bookTitle {
+/* Add your styles here */
+}
+
+.sectionProfile__text--bookIntro {
+/* Add your styles here */
+}
+
+.sectionProfile__bookdate {
+/* Add your styles here */
+}
+
+.sectionProfile__text--dateTitle {
+/* Add your styles here */
+}
+
+.sectionProfile__input--bookdate {
+/* Add your styles here */
+}
+
+.sectionProfile__bookTime {
+/* Add your styles here */
+}
+
+.sectionProfile__text--timeTitle {
+/* Add your styles here */
+}
+
+.sectionProfile__input--bookTime {
+/* Add your styles here */
+}
+
+.sectionProfile__bookPrice {
+/* Add your styles here */
+}
+
+.sectionProfile__text--priceTitle {
+/* Add your styles here */
+}
+
+.sectionProfile__text--bookPrice {
+/* Add your styles here */
+}
+
+.sectionProfile__btn {
+/* Add your styles here */
+}
+
+.separator {
+/* Add your styles here */
+}
+
+.infos {
+/* Add your styles here */
+}
+
+.infos__text--description {
+/* Add your styles here */
+}
+
+.infos__block--address {
+/* Add your styles here */
+}
+
+.infos__text--addressTitle {
+/* Add your styles here */
+}
+
+.infos__text--address {
+/* Add your styles here */
+}
+
+.infos__block--transport {
+/* Add your styles here */
+}
+
+.infos__text--transportTitle {
+/* Add your styles here */
+}
+
+.infos__text--transport {
+/* Add your styles here */
+}

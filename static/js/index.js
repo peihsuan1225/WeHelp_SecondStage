@@ -130,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () =>{
     loadAttractions(nextPage);
 });
 
+// 搜索後顯示景點窗格
 function searchKeyword(){
     const attractionArea = document.querySelector(".attractionDisplayArea");
     let nextPage = 0;
