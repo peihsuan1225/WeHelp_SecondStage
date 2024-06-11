@@ -18,12 +18,12 @@
 /* Picture Display Area */
 .sectionPicture{
     width: 540px;
-    height: 406px;
+    height: 400px;
     background-image: url("/static/pic/thumbnail.png");
     background-size: cover; 
 }
-.sectionPicture__btn--left{
-    background-image: url(/static/pic/btn_leftArrow.png);
+.sectionPicture__btn--left,
+.sectionPicture__btn--right {
     background-size: cover;
     background-repeat: no-repeat;
     width: 36px;
@@ -31,22 +31,19 @@
     opacity: 0.75;
     border-radius: 100%;
     border: 3px 0;
-    margin-left: 10px;
+    cursor: pointer;
+}
+.sectionPicture__btn--left{
+    background-image: url(/static/pic/btn_leftArrow.png);
+    margin: auto auto auto 10px;
 }
 .sectionPicture__btn--right{
     background-image: url(/static/pic/right\ arrow.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 36px;
-    height: 36px;
-    opacity: 0.75;
-    border-radius: 100%;
-    border: 3px 0;
-    margin-right: 10px;
+    margin-right: auto 10px auto auto;
 }
 .sectionPicture__dotsBlock{
     height: 12px;
-    top: 378px;
+    margin-bottom: 0;
     opacity: 0.75px;
     display: flex;
     align-items: center;
@@ -59,112 +56,118 @@
     background-color: #FFFFFF;
     border-radius: 100%;
     padding: 0 6px;
+    cursor: pointer;
 }
 .sectionPicture__dot.black{
     background-color: black;
     border: 1px solid #FFFFFF;
 }
 
-.sectionProfile {
-/* Add your styles here */
+/* sectionProfile */
+.sectionProfile{
+    width: 600px;
+    height: 400px;
+    color: #666666;
+}
+.sectionProfile__text--name{
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 24px;
+}
+.sectionProfile__text--intro{
+    font-weight: 400;
+    line-height: 13.3px;
+}
+.sectionProfile__block--book{
+    width: 600px;
+    height: 302px;
+    background-color: #E8E8E8;
+}
+.sectionProfile__text--bookTitle{
+    font-weight: bold;
+    line-height: 13.3px;
+    margin: 15px 20px;
+}
+.sectionProfile__text--bookIntro{
+    line-height: 13.3px;
+    margin: 15px 20px;
+}
+.sectionProfile__bookdate{
+    margin: 15px 20px;
+}
+.sectionProfile__text--dateTitle{
+    font-weight: bold;
+    line-height: 13.3px;
+}
+.sectionProfile__input--bookdate{
+    width: 193px;
+    height: 35px;
+    color: black;
+    line-height: 13.3px;
+}
+.sectionProfile__bookTime{
+    margin: 15px 20px;
+}
+.sectionProfile__text--timeTitle{
+    font-weight: bold;
+    line-height: 13.3px;
+}
+.sectionProfile__input--bookTime{
+    line-height: 13.3px;
+}
+.sectionProfile__bookPrice{
+    margin: 15px 20px;
+}
+.sectionProfile__text--priceTitle{
+    font-weight: bold;
+    line-height: 13.3px;
+}
+.sectionProfile__text--bookPrice{
+    line-height: 13.3px;
+}
+.sectionProfile__btn{
+    margin: 15px 20px;
+    color: #FFFFFF;
+    font-size: 19px;
+    line-height: 16px;
+    background-color: #448899;
+    padding: 10px, 20px, 10px, 20px;
+    border-radius: 5px;
 }
 
-.sectionProfile__block--attraction {
-/* Add your styles here */
+.separator{
+    width: 1200px;
+    border: 1px solid #E8E8E8;
+    margin: 40px auto;
 }
 
-.sectionProfile__text--attractionName {
-/* Add your styles here */
+/* Attraction Informations */
+.infos{
+    width: 1200px;
+    color: #666666;
+    margin: 40px auto;
 }
-
-.sectionProfile__text--attractionIntro {
-/* Add your styles here */
+.infos__text--description{
+    line-height: 23.17px;
+    margin: 10px auto;
 }
-
-.sectionProfile__block--book {
-/* Add your styles here */
+.infos__block--address{
+    margin: 20px auto;
 }
-
-.sectionProfile__text--bookTitle {
-/* Add your styles here */
+.infos__text--addressTitle{
+    font-weight: bold;
+    line-height: 13.3px;
 }
-
-.sectionProfile__text--bookIntro {
-/* Add your styles here */
+.infos__text--address{
+    line-height: 23.17px;
 }
-
-.sectionProfile__bookdate {
-/* Add your styles here */
+.infos__block--transport{
+    margin: 20px auto;
 }
-
-.sectionProfile__text--dateTitle {
-/* Add your styles here */
+.infos__text--transportTitle{
+    font-weight: bold;
+    line-height: 13.3px;
 }
-
-.sectionProfile__input--bookdate {
-/* Add your styles here */
-}
-
-.sectionProfile__bookTime {
-/* Add your styles here */
-}
-
-.sectionProfile__text--timeTitle {
-/* Add your styles here */
-}
-
-.sectionProfile__input--bookTime {
-/* Add your styles here */
-}
-
-.sectionProfile__bookPrice {
-/* Add your styles here */
-}
-
-.sectionProfile__text--priceTitle {
-/* Add your styles here */
-}
-
-.sectionProfile__text--bookPrice {
-/* Add your styles here */
-}
-
-.sectionProfile__btn {
-/* Add your styles here */
-}
-
-.separator {
-/* Add your styles here */
-}
-
-.infos {
-/* Add your styles here */
-}
-
-.infos__text--description {
-/* Add your styles here */
-}
-
-.infos__block--address {
-/* Add your styles here */
-}
-
-.infos__text--addressTitle {
-/* Add your styles here */
-}
-
-.infos__text--address {
-/* Add your styles here */
-}
-
-.infos__block--transport {
-/* Add your styles here */
-}
-
-.infos__text--transportTitle {
-/* Add your styles here */
-}
-
-.infos__text--transport {
-/* Add your styles here */
+.infos__text--transport{
+    line-height: 23.17px;
 }

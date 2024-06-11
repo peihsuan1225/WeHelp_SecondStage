@@ -15,6 +15,9 @@ fetch("/static/base.html")
         let navbarInsert = tempDiv.querySelector(".navbar");
         if (navbarInsert) {
             document.querySelector(".navbar_insert").appendChild(navbarInsert);
+            document.querySelector(".navbar__text").addEventListener("click", function() {
+                window.location.href = '/';
+            });            
         } else {
             console.error('Error: Element with class "navbar" not found in base.html.');
         }
@@ -29,10 +32,5 @@ fetch("/static/base.html")
     })
     .catch(error => console.error('Error loading base HTML:', error));
 
-// 點擊導覽列的標題文字導向homepage
-document.addEventListener("click", function(event) {
-    let pageTitle = event.target.closest('.navbar__text');
-    if(pageTitle) {
-        window.location.href = '/';
-    }
-});
+
+

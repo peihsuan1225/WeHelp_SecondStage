@@ -19,15 +19,14 @@
 .heroSection__text--big{
     font-size: 28px;
     font-weight: bold;
-    height: 24px;
     line-height: 24px;
     text-shadow: 0px 0px 30px #AABBCC;
     margin: 10px;
     padding: 10px 0;
 }
 .heroSection__text--small{
-    height: 13.3px;
     line-height: 13.3px;
+    font-weight: bold;
     margin: 10px;
     padding: 10px 0;
 }
@@ -43,7 +42,11 @@
     border: none;
     margin: 10px 0 10px 10px;
     padding: 10px;
-    border-radius: 4px 0 0 4px
+    border-radius: 4px 0 0 4px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 13.3px;
+    color: #757575;
 }
 .heroSection__btn{
     background-color: #448899;
@@ -88,7 +91,8 @@
     border-color: #000000;
 }
 .listbar__text{
-    font-size: 16px;
+    line-height: 13.3px;
+    font-weight: 500;
     color: #666666;
     display: flex;
     height: 50px;
@@ -155,6 +159,7 @@
     margin: 10px;
 }
 .attraction__text--info{
+    font-weight: 500;
     color: #757575;
     background-color: #FFFFFF;
     height: 45px;
