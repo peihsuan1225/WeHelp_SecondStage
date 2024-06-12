@@ -75,7 +75,7 @@
     margin: 0 auto;
 }
 .listbar__btn--left{
-    background-image: url(/static/pic/btn_leftArrow.png);
+    background-image: url(/static/pic/leftArrow.png);
     background-size: cover;
     background-repeat: no-repeat;
     width: 32px;
@@ -83,7 +83,7 @@
     opacity: 0.5;
     cursor: pointer;
     border: #666666 thin solid;
-    border-radius: 100%;
+    border-radius: 50%;
 }
 .listbar__btn--left:hover{
     opacity: 1;
@@ -112,7 +112,7 @@
     cursor: pointer;
 }
 .listbar__btn--right{
-    background-image: url(/static/pic/right\ arrow.png);
+    background-image: url(/static/pic/rightArrow.png);
     background-size: cover;
     background-repeat: no-repeat;
     width: 32px;
@@ -120,7 +120,7 @@
     opacity: 0.5;
     cursor: pointer;
     border: #666666 thin solid;
-    border-radius: 100%;
+    border-radius: 50%;
 }
 .listbar__btn--right:hover{
     opacity: 1;

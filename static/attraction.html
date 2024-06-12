@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
   <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/attraction.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -13,13 +14,13 @@
       <div class="section">
         <!-- Picture Display Area -->
         <div class="sectionPicture">
-          <div class="sectionPicture__btn--left" onclick="back()"></div>
-          <div class="sectionPicture__btn--right" onclick="next()"></div>
+          <div class="sectionPicture__btn--left"></div>
+          <div class="sectionPicture__btn--right"></div>
           <div class="sectionPicture__dotsBlock">
             <!-- dot div -->
           </div>
         </div>
-        <!-- sectionProfile -->
+        <!-- Section Profile -->
         <div class="sectionProfile">
           <div class="sectionProfile__text--name"></div>
           <div class="sectionProfile__text--intro"></div>
@@ -28,17 +29,24 @@
             <div class="sectionProfile__text--bookIntro">以此景點為中心的一日行程，帶您探索城市角落故事</div>
             <div class="sectionProfile__bookdate">
               <div class="sectionProfile__text--dateTitle">選擇日期：</div>
-              <input type="date" class="sectionProfile__input--bookdate" />
+              <input type="date" class="sectionProfile__input--bookdate">
             </div>
             <div class="sectionProfile__bookTime">
               <div class="sectionProfile__text--timeTitle">選擇時間：</div>
-              <input type="radio" class="sectionProfile__input--bookTime" />
+              <label>
+                <input type="radio" class="sectionProfile__input--bookTime" name="booktime" id="morning">
+                上半天
+              </label>
+              <label>
+                <input type="radio" class="sectionProfile__input--bookTime" name="booktime" id="afternoon">
+                下半天
+              </label>
             </div>
             <div class="sectionProfile__bookPrice">
               <div class="sectionProfile__text--priceTitle">導覽費用：</div>
-              <div class="sectionProfile__text--bookPrice"></div>
+              <div class="sectionProfile__text--bookPrice">新台幣 ? 元</div>
             </div>
-            <div class="sectionProfile__btn"></div>
+            <div class="sectionProfile__btn">開始預約行程</div>
           </div>
         </div>
       </div>
@@ -59,5 +67,6 @@
     <!-- Footer -->
     <div class="footer_insert"></div>
     <script src="/static/js/base.js" defer></script>
+    <script src="/static/js/attraction.js" defer></script>
 </body>
 </html>

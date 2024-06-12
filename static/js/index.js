@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () =>{
                     attractionDiv.style.backgroundImage = `url(${attraction.images[0]})`;
                 }
 
-                attractionDiv.addEventListener("click", () => {
+                attractionDiv.addEventListener("click", () =>{
                     let id = attractionDiv.id;
                     window.location.href = "/attraction/"+ id ;
                 });
