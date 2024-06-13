@@ -121,10 +121,10 @@
     display: flex;
     align-items: center;
     position: relative;
-    padding-right: 5px;
 }
 .sectionProfile__text--dateTitle{
     font-weight: bold;
+    margin-right: 5px;
 }
 .sectionProfile__input--bookdate{
     width: 193px;
@@ -153,7 +153,7 @@ label{
     width: 22px;
     height: 22px;
     background-color: #FFFFFF;
-    margin-right: 5px;
+    margin:0 5px;
     border-radius: 50%;
 }
 .sectionProfile__input--bookTime:checked{
@@ -174,6 +174,7 @@ label{
     margin: auto 20px;
     color: #FFFFFF;
     font-size: 19px;
+    line-height: 16px;
     background-color: #448899;
     padding: 10px 20px;
     border-radius: 5px;
@@ -181,9 +182,9 @@ label{
 }
 
 .separator{
-    width: 1200px;
+    width: 100%;
     border: 1px solid #E8E8E8;
-    margin: 40px auto;
+    margin: 40px 0;
 }
 
 /* Attraction Informations */
@@ -193,26 +194,98 @@ label{
     margin: 40px auto;
 }
 .infos__text--description{
-    line-height: 23.17px;
-    margin: 10px auto;
+    line-height: 28px;
+    margin: 10px;
 }
 .infos__block--address{
-    margin: 20px auto;
+    margin: 20px 10px;
 }
 .infos__text--addressTitle{
     font-weight: bold;
-    line-height: 13.3px;
+    line-height: 32px;
 }
 .infos__text--address{
-    line-height: 23.17px;
+    line-height: 28px;
 }
 .infos__block--transport{
-    margin: 20px auto;
+    margin: 20px 10px;
 }
 .infos__text--transportTitle{
     font-weight: bold;
-    line-height: 13.3px;
+    line-height: 32px;
 }
 .infos__text--transport{
-    line-height: 23.17px;
+    line-height: 28px;
+}
+
+
+/* 當視窗大小介於600-1200套用以下css */
+@media (min-width: 600px) and (max-width: 1200px){
+    .main{
+        width: 600px;
+        padding-top: 54px;
+    }
+    .section{
+        display: block;
+    }
+
+    /* Picture Display Area */
+    .sectionPicture{
+        width: 600px;
+        margin: 15px 0;
+    }
+
+    /* Section Profile */
+    .sectionProfile{
+        width: 600px;
+        height: 400px;
+        color: #666666;
+        margin: 5px 0;
+    }
+
+    .separator{
+        margin: 30px 0;
+    }
+
+    /* Attraction Informations */
+    .infos{
+        width: 600px;
+        margin: 20px auto;
+    }
+}
+
+
+/* 當視窗大小介於360-600套用以下css */
+@media (min-width: 360px) and (max-width: 600px){
+   .main{
+        width: 360px;
+        padding-top: 54px;
+    }
+    .section{
+        display: block;
+    }
+
+    /* Picture Display Area */
+    .sectionPicture{
+        width: 360px;
+        height: 350px;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    /* Section Profile */
+    .sectionProfile{
+        width: 340px;
+        margin: 20px 10px;
+    }
+    .sectionProfile__block--book{
+        width: 340px;
+        margin-bottom: 0;
+    }
+
+    /* Attraction Informations */
+    .infos{
+        width: 340px;
+        margin: 0 10px;
+    }
 }

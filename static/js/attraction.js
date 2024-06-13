@@ -70,11 +70,11 @@ document.addEventListener("DOMContentLoaded", () =>{
             setTimeout(() =>{
                 showImgDiv.style.backgroundImage = `url(${images[currentIndex]})`;
                 showImgDiv.classList.remove("fade-out");
-            }, 550);
+            }, 1500);
             setTimeout(() =>{
                 showImgDiv.style.backgroundImage = `url(${images[currentIndex]})`;
                 showImgDiv.classList.add("fade-in");
-            }, 450);
+            }, 300);
         }
     };
 
@@ -108,10 +108,10 @@ document.addEventListener("DOMContentLoaded", () =>{
     booktimeInput.forEach(input =>{
         input.addEventListener("click", () =>{
             if(input.id === "morning"){
-                priceDiv.textContent = "新台幣2000元";
+                priceDiv.textContent = "新台幣 2000 元";
             }
             else if(input.id === "afternoon"){
-                priceDiv.textContent = "新台幣2500元";
+                priceDiv.textContent = "新台幣 2500 元";
             }
         })
     })
