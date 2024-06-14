@@ -275,17 +275,23 @@ label{
 
     /* Section Profile */
     .sectionProfile{
-        width: 100vw;
+        width: calc(100% - 20px);
         margin: 20px 10px;
     }
     .sectionProfile__block--book{
-        width: 100vw;
+        width: 100%;
         margin-bottom: 0;
+    }
+
+    .separator{
+        width: calc(100% - 20px);
+        border: 1px solid #E8E8E8;
+        margin: 40px auto;
     }
 
     /* Attraction Informations */
     .infos{
-        width: 100vw;
+        width: calc(100% - 20px);
         margin: 0 10px;
     }
 }
