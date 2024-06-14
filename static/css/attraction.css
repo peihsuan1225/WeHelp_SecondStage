@@ -294,4 +294,13 @@ label{
         width: calc(100% - 20px);
         margin: 0 10px;
     }
+    .infos__text--description{
+        margin: 5px;
+    }
+    .infos__block--address{
+        margin: 20px 5px;
+    }
+    .infos__block--transport{
+        margin: 20px 5px;
+    }
 }
