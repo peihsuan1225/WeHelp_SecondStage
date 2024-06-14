@@ -184,6 +184,9 @@
 
 /* 當視窗大小介於600-1200套用以下css */
 @media (min-width: 600px) and (max-width: 1200px){
+    .main{
+        display: block;
+    }
     /* Hero Section */
     .heroSection__block{
         width: 600px;
