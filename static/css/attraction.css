@@ -258,7 +258,7 @@ label{
 /* 當視窗大小介於360-600套用以下css */
 @media (min-width: 360px) and (max-width: 600px){
    .main{
-        width: 360px;
+        width: 100vw;
         padding-top: 54px;
     }
     .section{
@@ -267,7 +267,7 @@ label{
 
     /* Picture Display Area */
     .sectionPicture{
-        width: 360px;
+        width: 100vw;
         height: 350px;
         margin: 0;
         border-radius: 0;
@@ -275,17 +275,17 @@ label{
 
     /* Section Profile */
     .sectionProfile{
-        width: 340px;
+        width: 100vw;
         margin: 20px 10px;
     }
     .sectionProfile__block--book{
-        width: 340px;
+        width: 100vw;
         margin-bottom: 0;
     }
 
     /* Attraction Informations */
     .infos{
-        width: 340px;
+        width: 100vw;
         margin: 0 10px;
     }
 }
