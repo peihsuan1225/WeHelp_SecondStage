@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+body{
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: 'Noto Sans TC', sans-serif;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Navigation Bar */
+.navbar{
+    height: 54px;
+    position: fixed;
+    background-color: #FFFFFF;
+    width: 100vw;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.navbar__block{
+    display: flex;
+    width: 1200px;
+    height: 34px;
+    align-items: center;
+    justify-content: space-between;
+}
+.navbar__text{
+    color: #448899;
+    font-size: 30px;
+    font-weight: bold;
+    height: 34px;
+    line-height: 34px;
+    cursor: pointer;
+}
+.navbar__btnBlock{
+    height: 34px;
+}
+.navbar__btn{
+    background: none;
+    line-height: 13.3px;
+    color: #666666;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Footer */
+footer{
+    position: sticky;
+    bottom: 0;
+    width: 100vw;
+    height: 104px;
+    background-color: #757575;
+    color: #FFFFFF;
+    font-weight: bold;
+    line-height: 104px;
+    text-align: center;
+    margin-top: 100px;
+}
+
+/* 當視窗大小介於600-1200套用以下css */
+@media (min-width: 600px) and (max-width: 1200px){
+    /* Navigation Bar */
+    .navbar__block{
+        width: 100vw;
+    }
+    .navbar__text{
+        margin-left: 10px;
+    }
+}
+
+/* 當視窗大小介於360-600套用以下css */
+@media (min-width: 360px) and (max-width: 600px){
+    /* Navigation Bar */
+    .navbar__block{
+        width: 100vw;
+    }
+    .navbar__text{
+        margin-left: 10px;
+    }
+}

@@ -169,7 +169,6 @@ async def get_attraction(attractionId: int):
 			conn.close()
 	
 	return response
-	
 
 # 抓取所有捷運站名，按照週邊景點的數量由大到小排序	
 @app.get("/api/mrts")
