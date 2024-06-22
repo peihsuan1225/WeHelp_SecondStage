@@ -4,8 +4,35 @@
       <div class="navbar__text">台北一日遊</div>
       <div class="navbar__btnBlock">
           <button class="navbar__btn">預定行程</button>
-          <button class="navbar__btn">登入/註冊</button>
+          <button class="navbar__btn" id="signin_signup">登入/註冊</button>
       </div>
+  </div>
+</div>
+
+<!-- dialog section -->
+<div class="dialog">
+  <!-- 登入會員 -->
+  <div class="dialog__block" id="sign_in">
+    <div class="dialog__bar"></div>
+    <div class="dialog__text--title">登入會員帳號</div>
+    <div class="dialog__icon--close"></div>
+    <div><input class="dialog__input" id="signin_email_input" placeholder="輸入電子信箱" /></div>
+    <div><input type="password" class="dialog__input" id="signin_password_input" placeholder="輸入密碼" /></div>
+    <button class="dialog__btn" id="sign_in_btn">登入帳戶</button>
+    <div class="dialog__text--error" id="signin_error_message"></div>
+    <div class="dialog__text--switch">還沒有帳戶?點此註冊</div>
+  </div>
+  <!-- 註冊會員 -->
+  <div class="dialog__block" id="sign_up">
+    <div class="dialog__bar"></div>
+    <div class="dialog__text--title">註冊會員帳號</div>
+    <div class="dialog__icon--close"></div>
+    <div><input class="dialog__input" id="signup_name_input" placeholder="輸入姓名" /></div>
+    <div><input class="dialog__input" id="signup_email_input" placeholder="輸入電子信箱" /></div>
+    <div><input type="password" class="dialog__input" id="signup_password_input" placeholder="輸入密碼" /></div>
+    <button class="dialog__btn" id="sign_up_btn">註冊新帳戶</button>
+    <div class="dialog__text--error" id="signup_error_message"></div>
+    <div class="dialog__text--switch">已經有帳戶了?點此登入</div>
   </div>
 </div>
 

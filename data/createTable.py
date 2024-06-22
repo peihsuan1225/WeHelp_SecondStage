@@ -86,7 +86,7 @@ def create_member_table():
     CREATE TABLE IF NOT EXISTS member(
         member_id BIGINT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL UNIQUE,
+        email VARCHAR(255) NOT NULL COLLATE utf8mb4_bin UNIQUE,
         password VARCHAR(255) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
@@ -98,8 +98,8 @@ def create_member_table():
     VALUES (%s, %s ,%s);
     '''
     test_members = [
-        ("Jessica", "jessica@test.com", "1225"),
-        ("Hebe", "hebe@test.com", "0330")
+        ("Jessica", "jessica@test.com", "$2b$12$/pZyEkAWTkNDnJP47LDF0OpbhJp1KyGpiOt.vGUlAWrGG8dn9MVna"),
+        ("Hebe", "hebe@test.com", "$2b$12$5QkdVxz4CzAJ5fW/f27BQOLzBu2ZDr8fa8eQSTZD6VJH6eMC/z1bq")
     ]
     for member in test_members:
         cursor.execute(insert_query, member)
