@@ -8,6 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from passlib.hash import bcrypt
 import jwt
 from datetime import datetime, timedelta
+from pydantic import BaseModel
 
 app=FastAPI()
 
@@ -223,14 +224,14 @@ async def get_mrt_stations():
 	
 	return response
 
+class signinRequest(BaseModel):
+	name: str
+	email: str
+	password: str
+
 # 註冊會員，驗證email是否已存在
 @app.post("/api/user")
-async def sign_up(request: Request):
-	data = await request.json()
-	name = data.get("signupName")
-	email = data.get("signupEmail")
-	password = data.get("signupPassword")
-
+async def sign_up(signupInput: signinRequest):
 	try:
 		conn = connection_pool.get_connection()
 		cursor = conn.cursor(dictionary=True)
@@ -238,7 +239,7 @@ async def sign_up(request: Request):
 		check_email_exist_query='''
 		SELECT * FROM member WHERE email = %s
 		'''
-		cursor.execute(check_email_exist_query, (email,))
+		cursor.execute(check_email_exist_query, (signupInput.email,))
 		result = cursor.fetchall()
 		
 		if result:
@@ -247,11 +248,11 @@ async def sign_up(request: Request):
 		
 		# 建立新的會員資料
 		elif not result:
-			hashed_password = bcrypt.hash(password)
+			hashed_password = bcrypt.hash(signupInput.password)
 			insert_query='''
 			INSERT INTO member (name, email, password) VALUES (%s, %s, %s)
 			'''
-			cursor.execute(insert_query, (name, email, hashed_password))
+			cursor.execute(insert_query, (signupInput.name, signupInput.email, hashed_password))
 			conn.commit()
 			response_data = {"ok": True}
 			response = JSONResponse(content=response_data, status_code=200)
@@ -268,14 +269,14 @@ async def sign_up(request: Request):
 			conn.close()
 	
 	return response
-	
+
+class signinRequest(BaseModel):
+	email: str
+	password: str
+
 # 登入會員，取得JWT加密字串
 @app.put("/api/user/auth")
-async def sign_in(request: Request):
-	data = await request.json()
-	email = data.get("signinEmail")
-	password = data.get("signinPassword")
-
+async def sign_in(signinInput: signinRequest):
 	try:
 		conn = connection_pool.get_connection()
 		cursor = conn.cursor(dictionary=True)
@@ -283,10 +284,10 @@ async def sign_in(request: Request):
 		serach_member_query='''
 		SELECT * FROM member WHERE email = %s COLLATE utf8mb4_bin
 		'''
-		cursor.execute(serach_member_query, (email,))
+		cursor.execute(serach_member_query, (signinInput.email,))
 		result = cursor.fetchone()
 
-		if result and bcrypt.verify(password, result["password"]):
+		if result and bcrypt.verify(signinInput.password, result["password"]):
 			expiration = datetime.utcnow() + timedelta(days=7)
 			payload = {
 				"id": result["member_id"],
@@ -318,9 +319,9 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
 		payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
 		return payload
 	except jwt.ExpiredSignatureError:
-		raise HTTPException(status_code=401, detail="Token已到期")
+		raise HTTPException(status_code=401, detail="Token 已到期")
 	except jwt.InvalidTokenError:
-		raise HTTPException(status_code=401, detail="Token無效")
+		raise HTTPException(status_code=401, detail="Token 無效")
 
 # 取得當前登入的會員資訊
 @app.get("/api/user/auth")

@@ -85,8 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const passwordInput = form.querySelector("#signin_password_input").value.trim();
 
                 const request = {
-                    signinEmail: emailInput,
-                    signinPassword: passwordInput
+                    email: emailInput,
+                    password: passwordInput
                 };
                 try {
                     const response = await fetch("/api/user/auth",{
@@ -119,9 +119,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const passwordInput = form.querySelector("#signup_password_input").value.trim(); 
 
                 const request = {
-                    signupName: nameInput,
-                    signupEmail: emailInput,
-                    signupPassword: passwordInput
+                    name: nameInput,
+                    email: emailInput,
+                    password: passwordInput
                 };
                 try {
                     const response = await fetch("/api/user",{
@@ -224,11 +224,30 @@ document.addEventListener("DOMContentLoaded", () => {
         const signinSignup = document.querySelector("#signin_signup");
 
         if (token){
-            signinSignup.textContent = "登出系統";
-        }else{
-            signinSignup.textContent = "登入/註冊"
+            fetch("/api/user/auth", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if(!response.ok){
+                    throw new Error("Token 已到期或無效");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if(data && data.data){
+                    signinSignup.textContent = "登出系統";
+                }
+                else{
+                    signinSignup.textContent = "登入/註冊";
+                }
+            })
+            .catch(error =>{
+                console.error("Error:", error);
+                signinSignup.textContent = "登入/註冊";
+            });
         }
-        })
-
-    .catch(error => console.error('Error loading base HTML:', error));
+    });
 });
