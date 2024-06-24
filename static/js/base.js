@@ -237,6 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return response.json();
             })
             .then(data => {
+                console.log(data);
                 if(data && data.data){
                     signinSignup.textContent = "登出系統";
                 }

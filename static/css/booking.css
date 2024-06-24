@@ -1,0 +1,59 @@
+/* Navigation Bar */
+.navbar{
+    border-bottom: 1px solid #E8E8E8;
+}
+
+/* headline */
+.headline__textBlock{
+    width: 1000px;
+    padding-top: 94px;
+    margin: 0 auto;
+    color: #666666;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+/* booking infos */
+.bookingInfos__block{
+    display: flex;
+    position: relative;
+    margin: 30px auto 0 auto;
+}
+.bookingInfos__pic{
+    width: 250px;
+    height: 200px;
+    background-size: cover;
+}
+.bookingInfos__textBlock{
+    margin: 0 0 30px 30px;
+    font-size: 16px;
+}
+.bookingInfos__text--title{
+    color: #448899;
+    font-weight: bold;
+    margin: 0 auto 10px 30px;
+}
+.bookingInfos__text{
+    margin: 10px 0 10px 30px;
+    color: #666666;
+}
+.bookingInfos__text--bold{
+    font-weight: bold;
+}
+.bookingInfos__icon{
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-image: url(/static/pic/delete.png);
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+}
+
+/* separator */
+.separator{
+    width: 1200px;
+    border: 1px solid #E8E8E8;
+    margin: 40px auto;
+}
+
