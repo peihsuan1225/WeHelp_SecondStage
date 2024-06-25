@@ -11,13 +11,14 @@
     color: #666666;
     font-size: 19px;
     font-weight: bold;
+    display: flex;
 }
 
 /* booking infos */
 .bookingInfos__block{
     display: flex;
     position: relative;
-    margin: 30px auto 0 auto;
+    margin: 30px auto 40px auto;
 }
 .bookingInfos__pic{
     width: 250px;
@@ -54,6 +55,73 @@
 .separator{
     width: 1200px;
     border: 1px solid #E8E8E8;
-    margin: 40px auto;
+    margin: 0 auto;
 }
 
+/* contact form */
+.contact__block{
+    width: 980px;
+    margin: 40px auto;
+}
+.contact__text--title{
+    font-size: 19px;
+    font-weight: bold;
+    color: #666666;
+}
+.contact__textBlock{
+    display: flex;
+    font-size: 16px;
+}
+.contact__text{
+    color: #666666;
+}
+.contact__input{
+    color: black;
+    font-weight: 500;
+}
+.contact__text--remind{
+    font-weight: bold;
+    color: #666666;
+}
+
+/* payment form */
+.payment__block{
+    width: 980px;
+    margin: 40px auto;
+}
+.payment__text--title{
+    font-size: 19px;
+    font-weight: bold;
+    color: #666666;
+}
+.payment__textBlock{
+    display: flex;
+    font-size: 16px;
+}
+.payment__text{
+    color: #666666;
+}
+.payment__input{
+    color: black;
+    font-weight: 500;
+}
+
+/* confrim */
+.confirm__block{
+    margin: 40px auto;
+    align-items: end;
+}
+.confirm__text{
+    font-weight: bold;
+    text-align: right;
+    color: #666666;
+}
+.confirm__btn{
+    color: #FFFFFF;
+    font-size: 19px;
+    text-align: center;
+    background-color: #448899;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 22px 0 22px auto;
+}
