@@ -335,3 +335,65 @@ async def get_member_info(user: dict = Depends(get_current_user)):
 			}
 		}
 	return{"data": None}
+
+# # 取得尚未確認下單的預定行程
+# @app.get("/api/booking")
+# async def get_uncheckBooking():
+
+
+class bookingRequest(BaseModel):
+	attractionId: int
+	date: str
+	time: str
+	price: str
+	
+# 建立新的預定行程
+@app.post("/api/booking")
+async def new_booking(bookInfo:bookingRequest, user: dict = Depends(get_current_user)):
+	if not user:
+		response_data = {"error": True, "message": "未登入系統，拒絕存取"}
+		response = JSONResponse(content=response_data, status_code=403)
+	try:
+		conn = connection_pool.get_connection()
+		cursor = conn.cursor(dictionary=True)
+		# 檢查是否已有預定資料
+		check_booking_info_query='''
+		SELECT * FROM booking WHERE member_id = %s
+		'''
+		cursor.execute(check_booking_info_query, (user["id"],))
+		result = cursor.fetchall()
+
+		if result:
+			change_booking_info_query='''
+			UPDATE booking
+			SET attraction_id = %s, date = %s, time = %s, price = %s
+			WHERE member_id = %s
+			'''
+			cursor.execute(change_booking_info_query, (bookingRequest.attractionId, bookingRequest.date, bookingRequest.time, bookingRequest.price, user["id"]))
+			conn.commit()
+			response_data = {"ok": True}
+			response = JSONResponse(content=response_data, status_code=200)
+		if not result:
+			add_booking_info_query='''
+			INSERT INTO booking (member_id, attaction_id, date, time, price) VALUES (%s, %s, %s, %s, %s)
+			'''
+			cursor.execute(add_booking_info_query, (user["id"], bookingRequest.attractionId, bookingRequest.date, bookingRequest.time, bookingRequest.price))
+			conn.commit()
+			response_data = {"ok": True}
+			response = JSONResponse(content=response_data, status_code=200)
+	except ValueError as e:
+		response_data = {"error": True, "message":str(e)}
+		response = JSONResponse(content=response_data, status_code=400)
+	except Exception as e:
+		response_data = {"error": True, "message":str(e)}
+		response = JSONResponse(content=response_data, status_code=500)
+	finally:
+		if "cursor" in locals():
+			cursor.close()
+		if "conn" in locals():
+			conn.close()
+	
+	return response
+
+# # 刪除目前的預定行程
+# @app.delete("/api/booking")

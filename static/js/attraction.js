@@ -102,10 +102,10 @@ document.addEventListener("DOMContentLoaded", () =>{
     });
 
     // 選擇時間顯示對應價格
-    const booktimeInput = document.querySelectorAll(".sectionProfile__input--bookTime");
+    const booktimeInputs = document.querySelectorAll(".sectionProfile__input--bookTime");
     const priceDiv = document.querySelector(".sectionProfile__text--bookPrice");
 
-    booktimeInput.forEach(input =>{
+    booktimeInputs.forEach(input =>{
         input.addEventListener("click", () =>{
             if(input.id === "morning"){
                 priceDiv.textContent = "新台幣 2000 元";
@@ -115,4 +115,77 @@ document.addEventListener("DOMContentLoaded", () =>{
             }
         })
     })
+
+    // 回傳預定資料
+    const bookingBtn = document.querySelector(".sectionProfile__btn");
+    const bookdateInput = document.querySelector(".sectionProfile__input--bookdate").value;
+    const booktimeInput = "";
+        booktimeInputs.forEach(timeinput =>{
+            if(timeinput.id === "morning"){
+                booktimeInput = "morning"
+            }
+            else if(input.id === "afternoon"){
+                booktimeInput = "afternoon"
+            }    
+        })
+    const bookprice = document.querySelector(".sectionProfile__text--bookPrice").textContent;
+    const signinSignup = document.querySelector("#signin_signup");
+
+    const bookingFun = async function () {
+        
+        const request = {
+            attractionId: id,
+            date: bookdateInput,
+            time: booktimeInput,
+            price: bookprice
+        };
+        try{
+            const response = await fetch("/api/booking" ,{
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(request)
+            });
+
+            if(!response.ok){
+                const errorData = await response.json();
+                signinErrorMessage.textContent = errorData.message || "無法預定，請稍後再試";
+            }
+            else if(data.ok){
+                window.location.href = "/booking"
+            }
+        }
+        catch(error){
+            console.error("Error", error);
+        }
+    }
+
+    bookingBtn.addEventListener("click", () =>{
+        if(bookdateInput){
+            if (token){
+                fetch("/api/user/auth", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if(!response.ok){
+                        signinSignup.click();
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if(data && data.data){
+                        bookingFun();
+                    }
+                    else{
+                        signinSignup.click();
+                    }
+                })
+
+            }
+        }    
+    });
 });

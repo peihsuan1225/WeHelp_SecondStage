@@ -110,10 +110,36 @@ def create_member_table():
     cursor.close()
     conn.close()
 
+def create_booking_table():
+    conn =mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+    table_name = "booking"
+    # 判斷是否已存在，已存在會return，不存在才繼續往下
+    if table_exists(cursor, table_name):
+        print(f"Table '{table_name}' already exists. Skipping table creation and data insertion.")
+        return
+    
+    create_booking_table_query = '''
+    CREATE TABLE IF NOT EXISTS booking(
+        booking_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+        member_id BIGINT UNIQUE NOT NULL,
+        attraction_id BIGINT NOT NULL,
+        date VARCHAR(255) NOT NULL,
+        time VARCHAR(255) NOT NULL,
+        price VARCHAR(255) NOT NULL
+    )
+    '''
+    cursor.execute(create_booking_table_query)
+    
+    print("預約table建立成功")
+
+    cursor.close()
+    conn.close()
 
 # 主程式呼叫fuction
 create_attraction_table()
 create_member_table()
+create_booking_table()
 
 
 
