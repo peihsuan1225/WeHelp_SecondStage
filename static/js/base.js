@@ -23,6 +23,34 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('Error: Element with class "navbar" not found in base.html.');
         }
 
+        const bookingbtn = document.querySelector("#booking");
+        bookingbtn.addEventListener("click", () =>{
+            if (token){
+                fetch("/api/user/auth", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if(!response.ok){
+                        signinSignup.click();
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if(data && data.data){
+                        window.location.href = "/booking"
+                    }
+                    else{
+                        signinSignup.click();
+                    }
+                })
+            }else{
+                signinSignup.click();
+            }
+        });
+
         // 尋找並插入 dialog
         let dialogInsert = tempDiv.querySelector(".dialog")
         if (dialogInsert) {
@@ -237,7 +265,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 return response.json();
             })
             .then(data => {
-                console.log(data);
                 if(data && data.data){
                     signinSignup.textContent = "登出系統";
                 }

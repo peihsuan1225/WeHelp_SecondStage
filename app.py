@@ -336,9 +336,51 @@ async def get_member_info(user: dict = Depends(get_current_user)):
 		}
 	return{"data": None}
 
-# # 取得尚未確認下單的預定行程
-# @app.get("/api/booking")
-# async def get_uncheckBooking():
+# 取得尚未確認下單的預定行程
+@app.get("/api/booking")
+async def get_uncheckBooking(user: dict = Depends(get_current_user)):
+	if not user:
+		response_data = {"error": True, "message": "未登入系統，拒絕存取"}
+		response = JSONResponse(content=response_data, status_code=403)
+	try:
+		conn = connection_pool.get_connection()
+		cursor = conn.cursor(dictionary=True)
+		get_booking_info_query='''
+		SELECT * FROM booking WHERE member_id = %s
+		'''
+		cursor.execute(get_booking_info_query, (user["id"],))
+		booking_result = cursor.fetchall()
+
+		if booking_result:
+			get_booking_attraction_query = '''
+			SELECT * FROM attractions WHERE attraction_id = %s
+			'''
+			cursor.execute(get_booking_attraction_query, (booking_result["attraction_id"],))
+			attraction_result = cursor.fetone()
+			response_data = {
+				"data": {
+					"attraction":{
+						"id": booking_result["attraction_id"],
+						"name": attraction_result["name"],
+						"address": attraction_result["address"],
+						"image": attraction_result["images"][0]
+					},
+					"date": booking_result["date"],
+					"time": booking_result["time"],
+					"price": booking_result["price"]
+				}
+			}
+		response = JSONResponse(content=response_data, status_code=200)
+		if not booking_result:
+			response_data = {None}
+			response = JSONResponse(content=response_data, status_code=200)
+	finally:
+		if "cursor" in locals():
+			cursor.close()
+		if "conn" in locals():
+			conn.close()
+	
+	return response
 
 
 class bookingRequest(BaseModel):
@@ -395,5 +437,26 @@ async def new_booking(bookInfo:bookingRequest, user: dict = Depends(get_current_
 	
 	return response
 
-# # 刪除目前的預定行程
-# @app.delete("/api/booking")
+# 刪除目前的預定行程
+@app.delete("/api/booking")
+async def delete_booking(user: dict = Depends(get_current_user)):
+	if not user:
+		response_data = {"error": True, "message": "未登入系統，拒絕存取"}
+		response = JSONResponse(content=response_data, status_code=403)
+	try:
+		conn = connection_pool.get_connection()
+		cursor = conn.cursor(dictionary=True)
+		delete_booking_query='''
+		DELETE FROM booking
+		WHERE member_id = %s
+		'''
+		cursor.execute(delete_booking_query, (user["id"],))
+		response_data = {"ok": True}
+		response = JSONResponse(content=response_data, status_code=200)
+	finally:
+		if "cursor" in locals():
+			cursor.close()
+		if "conn" in locals():
+			conn.close()
+	
+	return response

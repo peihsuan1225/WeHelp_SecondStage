@@ -118,16 +118,7 @@ document.addEventListener("DOMContentLoaded", () =>{
 
     // 回傳預定資料
     const bookingBtn = document.querySelector(".sectionProfile__btn");
-    const bookdateInput = document.querySelector(".sectionProfile__input--bookdate").value;
-    const booktimeInput = "";
-        booktimeInputs.forEach(timeinput =>{
-            if(timeinput.id === "morning"){
-                booktimeInput = "morning"
-            }
-            else if(input.id === "afternoon"){
-                booktimeInput = "afternoon"
-            }    
-        })
+    
     const bookprice = document.querySelector(".sectionProfile__text--bookPrice").textContent;
     const signinSignup = document.querySelector("#signin_signup");
 
@@ -147,10 +138,11 @@ document.addEventListener("DOMContentLoaded", () =>{
                 },
                 body: JSON.stringify(request)
             });
+            const data = await response.json();
 
             if(!response.ok){
                 const errorData = await response.json();
-                signinErrorMessage.textContent = errorData.message || "無法預定，請稍後再試";
+                alert(errorData.message || "無法預定，請稍後再試") ;
             }
             else if(data.ok){
                 window.location.href = "/booking"
@@ -162,30 +154,44 @@ document.addEventListener("DOMContentLoaded", () =>{
     }
 
     bookingBtn.addEventListener("click", () =>{
-        if(bookdateInput){
-            if (token){
-                fetch("/api/user/auth", {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${token}`
-                    }
-                })
-                .then(response => {
-                    if(!response.ok){
-                        signinSignup.click();
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if(data && data.data){
-                        bookingFun();
-                    }
-                    else{
-                        signinSignup.click();
-                    }
-                })
-
+        const bookdateInput = document.querySelector(".sectionProfile__input--bookdate").value;
+        let booktimeInput = "";
+        booktimeInputs.forEach(timeinput =>{
+            if(timeinput.id === "morning"){
+                booktimeInput = "morning"
             }
+            else if(timeinput.id === "afternoon"){
+                booktimeInput = "afternoon"
+            }    
+        })
+
+        if(bookdateInput && booktimeInput){
+            fetch("/api/user/auth", {
+                method: "GET",
+                headers: {
+                     "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                if(!response.ok){
+                    signinSignup.click();
+                }
+                return response.json();
+            })
+            .then(data => {
+                if(data && data.data){
+                    bookingFun();
+                }
+                else{
+                    signinSignup.click();
+                }
+            })
+            .catch(error => {
+                console.error("Error", error);
+            });
+        }
+        else{
+            alert("請選擇預定日期、時間")
         }    
     });
 });

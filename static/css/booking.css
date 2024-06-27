@@ -49,6 +49,7 @@
     background-size: cover;
     width: 30px;
     height: 30px;
+    cursor: pointer;
 }
 
 /* separator */
@@ -124,4 +125,9 @@
     border-radius: 5px;
     padding: 10px 20px;
     margin: 22px 0 22px auto;
+}
+
+/* empty booking */
+.empty_block{
+    display: none;
 }
