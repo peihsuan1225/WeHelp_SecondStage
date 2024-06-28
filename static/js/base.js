@@ -23,10 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('Error: Element with class "navbar" not found in base.html.');
         }
 
+        // 獲取預定行程
         const bookingbtn = document.querySelector("#booking");
-        bookingbtn.addEventListener("click", () =>{
+        bookingbtn.addEventListener("click", async() =>{
             if (token){
-                fetch("/api/user/auth", {
+                await fetch("/api/user/auth", {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`
@@ -51,6 +52,37 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+        // 登入狀態驗證，確認是否有登入token
+        const token = localStorage.getItem("token");
+        const signinSignup = document.querySelector("#signin_signup");
+
+        if (token){
+            fetch("/api/user/auth", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if(!response.ok){
+                    throw new Error("Token 已到期或無效");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if(data && data.data){
+                    signinSignup.textContent = "登出系統";
+                }
+                else{
+                    signinSignup.textContent = "登入/註冊";
+                }
+            })
+            .catch(error =>{
+                console.error("Error:", error);
+                signinSignup.textContent = "登入/註冊";
+            });
+        }
+
         // 尋找並插入 dialog
         let dialogInsert = tempDiv.querySelector(".dialog")
         if (dialogInsert) {
@@ -71,11 +103,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 signinBlock.classList.add("display");
                 content.classList.add("faded");        
             };
+
             const closeFun = () =>{
                 signinBlock.classList.remove("display");
                 signupBlock.classList.remove("display");
                 content.classList.remove("faded");   
             };
+
             const switchFun = () =>{
                 if (signinBlock.classList.contains("display")){
                     signinBlock.classList.remove("display");
@@ -86,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     signupBlock.classList.remove("display");
                 }
             };
+
             const emptyCheck = (form, event) =>{
                 const nameInput = form.querySelector("#signup_name_input") ? document.querySelector("#signup_name_input").value.trim() : null;
                 const emailInput = form.querySelector(form.id === "sign_in" ? "#signin_email_input" : "#signup_email_input").value.trim();
@@ -108,6 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 return true;
             };
+
             const authenticateUser = async function (form) {
                 const emailInput = form.querySelector("#signin_email_input").value.trim();
                 const passwordInput = form.querySelector("#signin_password_input").value.trim();
@@ -178,12 +214,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.querySelector("#signin_password_input").value = "";
                 document.querySelector("#signin_error_message").textContent = "";
             }
+
             function clearSignupFrom(){
                 document.querySelector("#signup_name_input").value = "";
                 document.querySelector("#signup_email_input").value = "";
                 document.querySelector("#signup_password_input").value = "";
                 document.querySelector("#signup_error_message").textContent = "";
             }
+
             // 點擊登入註冊>跳出視窗;點擊登出系統>清除token並重整
             signinSignup.addEventListener("click", () =>{
                 const token = localStorage.getItem("token");
@@ -247,35 +285,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('Error: Element with class "footer" not found in base.html.');
         }
 
-        // 登入狀態驗證，確認是否有登入token
-        const token = localStorage.getItem("token");
-        const signinSignup = document.querySelector("#signin_signup");
-
-        if (token){
-            fetch("/api/user/auth", {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                if(!response.ok){
-                    throw new Error("Token 已到期或無效");
-                }
-                return response.json();
-            })
-            .then(data => {
-                if(data && data.data){
-                    signinSignup.textContent = "登出系統";
-                }
-                else{
-                    signinSignup.textContent = "登入/註冊";
-                }
-            })
-            .catch(error =>{
-                console.error("Error:", error);
-                signinSignup.textContent = "登入/註冊";
-            });
-        }
+        
     });
 });

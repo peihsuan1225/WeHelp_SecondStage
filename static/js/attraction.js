@@ -118,31 +118,39 @@ document.addEventListener("DOMContentLoaded", () =>{
 
     // 回傳預定資料
     const bookingBtn = document.querySelector(".sectionProfile__btn");
-    
-    const bookprice = document.querySelector(".sectionProfile__text--bookPrice").textContent;
-    const signinSignup = document.querySelector("#signin_signup");
 
     const bookingFun = async function () {
-        
+        const bookdateInput = document.querySelector(".sectionProfile__input--bookdate").value;
+        let booktimeInput = "";
+        booktimeInputs.forEach(timeinput => {
+            if (timeinput.checked) { 
+                booktimeInput = timeinput.id; 
+            }
+        });
+        const bookprice = document.querySelector(".sectionProfile__text--bookPrice").textContent;
+        const priceNumber = bookprice.match(/\d+/);
+
         const request = {
             attractionId: id,
             date: bookdateInput,
             time: booktimeInput,
-            price: bookprice
+            price: priceNumber ? priceNumber[0] : ""
         };
+  
         try{
+            const token = localStorage.getItem("token");
             const response = await fetch("/api/booking" ,{
                 method: "POST",
                 headers:{
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(request)
             });
             const data = await response.json();
 
             if(!response.ok){
-                const errorData = await response.json();
-                alert(errorData.message || "無法預定，請稍後再試") ;
+                alert(data.message || "無法預定，請稍後再試") ;
             }
             else if(data.ok){
                 window.location.href = "/booking"
@@ -156,42 +164,41 @@ document.addEventListener("DOMContentLoaded", () =>{
     bookingBtn.addEventListener("click", () =>{
         const bookdateInput = document.querySelector(".sectionProfile__input--bookdate").value;
         let booktimeInput = "";
-        booktimeInputs.forEach(timeinput =>{
-            if(timeinput.id === "morning"){
-                booktimeInput = "morning"
+        booktimeInputs.forEach(timeinput => {
+            if (timeinput.checked) { 
+                booktimeInput = timeinput.id; 
             }
-            else if(timeinput.id === "afternoon"){
-                booktimeInput = "afternoon"
-            }    
-        })
+        });
 
-        if(bookdateInput && booktimeInput){
-            fetch("/api/user/auth", {
-                method: "GET",
-                headers: {
-                     "Content-Type": "application/json"
-                }
-            })
-            .then(response => {
-                if(!response.ok){
-                    signinSignup.click();
-                }
-                return response.json();
-            })
-            .then(data => {
-                if(data && data.data){
+        const signinSignup = document.querySelector("#signin_signup");
+        const token = localStorage.getItem("token");
+        fetch("/api/user/auth", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if(!response.ok){
+                signinSignup.click();
+            }
+            return response.json();
+        })
+        .then(data => {
+            if(data && data.data){
+                if(bookdateInput && booktimeInput){
                     bookingFun();
                 }
                 else{
-                    signinSignup.click();
+                    alert("請選擇預定日期、時間")
                 }
-            })
-            .catch(error => {
-                console.error("Error", error);
-            });
-        }
-        else{
-            alert("請選擇預定日期、時間")
-        }    
+            }
+            else{
+                signinSignup.click();
+            }
+        })
+        .catch(error => {
+            console.error("Error", error);
+        });
     });
 });

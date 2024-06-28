@@ -13,68 +13,95 @@ document.addEventListener("DOMContentLoaded", () =>{
 
     const main = document.querySelector(".main");
     const emptyBlock = document.querySelector(".empty_block");
+    const token = localStorage.getItem("token");
+    
+    // 獲取user資訊，帶入對應欄位
+    fetch("/api/user/auth", {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
+    .then(response => {
+        if(!response.ok){
+            throw new Error("Token 已到期或無效");
+        }
+        return response.json();
+    })
+    .then(res =>{
+        if(res.data == null){
+            window.location.href = '/';
+        }
+        else{
+            getBookingFun();
+            const userInfo = res.data;
+            const userName = userInfo.name;
+            const userEmail = userInfo.email;
 
-    fetch("/api/user/auth")
-        .then(data =>{
-            if(data.data){
-                const userInfo = data.data;
-                const userName = userInfo.name;
-                const userEmail = userInfo.email;
+            userNameDisplay.textContent = userName;
+            contactNameInput.value = userName;
+            contactEmailInput.value = userEmail;
+        }
+    })
 
-                userNameDisplay.textContent = userName;
-                contactNameInput.textContent = userName;
-                contactEmailInput.textContent = userEmail;
-            }else{
-                window.location.href = "/"
-            }
-        })
-    fetch("/api/booking")
-        .then(response =>{
+    // 獲取尚未下單的預定行程，帶入對應欄位
+    const getBookingFun = async function (){
+        try{
+            const token = localStorage.getItem("token");
+            const response = await fetch("/api/booking", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
             if(!response.ok){
-                throw new Error("連線回應不成功"+response.statusText);
-            }
-            return response.json();
-        })
-        .then(data =>{
-            if(data.data){
-                const bookingInfo = data.data;
-                const attrImg = bookingInfo.attraction.image;
-                const attrName = bookingInfo.attraction.name;
-                const attrAddress = bookingInfo.attraction.address;
-                const bookingDate = bookingInfo.date;
-                const bookingTime = bookingInfo.time;       
-                const bookingPrice = bookingInfo.price;
-
-                attrImgDisplay.style.backgroundImage = url(attrImg);
-                attrNameDisplay.textContent = attrName;
-                dateDisplay.textContent = bookingDate;
-                timeDisplay.textContent = bookingTime;
-                priceDisplay.textContent = bookingPrice;
-                attrAddressDisplay.textContent = attrAddress;
+                throw new Error("連線回應不成功" + response.statusText);
             }
             else{
-                main.style.display = none;
-                emptyBlock.style.display = block;
-            }
-        })
-    
+                const data = await response.json();
+                console.log(data)
+                if(data == null){
+                    main.style.display = "none";
+                    emptyBlock.style.display = "block";
+                }
+                else{
+                    const bookingInfo = data.data;
+                    const attrImg = bookingInfo.attraction.image;
+                    const attrName = bookingInfo.attraction.name;
+                    const attrAddress = bookingInfo.attraction.address;
+                    const bookingDate = bookingInfo.date;
+                    const bookingTime = bookingInfo.time;       
+                    const bookingPrice = bookingInfo.price;
+            
+                    attrImgDisplay.style.backgroundImage = `url(${attrImg})`;
+                    attrNameDisplay.textContent = attrName;
+                    dateDisplay.textContent = bookingDate;
+                    timeDisplay.textContent = bookingTime;
+                    priceDisplay.textContent = bookingPrice;
+                    attrAddressDisplay.textContent = attrAddress;
+                }
+            }     
+        }catch (error) {
+            console.error("Error", error);
+        }
+    };    
 
     const deleteFun = async function () {
+        const token = localStorage.getItem("token");
         try{
             const response = await fetch("/api/booking" ,{
                 method: "DELETE",
                 headers:{
-                    "Content-Type": "application/json"
+                    "Authorization": `Bearer ${token}`
                 },
             });
-        
 
             if(!response.ok){
                 const errorData = await response.json();
             }
-            else if(data.ok){
-                main.style.display = none;
-                emptyBlock.style.display = block;
+            else if(response.ok){
+                main.style.display = "none";
+                emptyBlock.style.display = "block";
             }
         }
         catch(error){

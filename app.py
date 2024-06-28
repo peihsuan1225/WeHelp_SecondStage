@@ -9,6 +9,7 @@ from passlib.hash import bcrypt
 import jwt
 from datetime import datetime, timedelta
 from pydantic import BaseModel
+from typing import Any
 
 app=FastAPI()
 
@@ -319,9 +320,9 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
 		payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
 		return payload
 	except jwt.ExpiredSignatureError:
-		raise HTTPException(status_code=401, detail="Token 已到期")
+		return
 	except jwt.InvalidTokenError:
-		raise HTTPException(status_code=401, detail="Token 無效")
+		return
 
 # 取得當前登入的會員資訊
 @app.get("/api/user/auth")
@@ -342,6 +343,8 @@ async def get_uncheckBooking(user: dict = Depends(get_current_user)):
 	if not user:
 		response_data = {"error": True, "message": "未登入系統，拒絕存取"}
 		response = JSONResponse(content=response_data, status_code=403)
+		print("no user info")
+		return
 	try:
 		conn = connection_pool.get_connection()
 		cursor = conn.cursor(dictionary=True)
@@ -349,30 +352,30 @@ async def get_uncheckBooking(user: dict = Depends(get_current_user)):
 		SELECT * FROM booking WHERE member_id = %s
 		'''
 		cursor.execute(get_booking_info_query, (user["id"],))
-		booking_result = cursor.fetchall()
+		booking_result = cursor.fetchone()
 
 		if booking_result:
 			get_booking_attraction_query = '''
 			SELECT * FROM attractions WHERE attraction_id = %s
 			'''
 			cursor.execute(get_booking_attraction_query, (booking_result["attraction_id"],))
-			attraction_result = cursor.fetone()
+			attraction_result = cursor.fetchone()
 			response_data = {
 				"data": {
 					"attraction":{
 						"id": booking_result["attraction_id"],
 						"name": attraction_result["name"],
 						"address": attraction_result["address"],
-						"image": attraction_result["images"][0]
+						"image": json.loads(attraction_result["images"])[0]
 					},
 					"date": booking_result["date"],
 					"time": booking_result["time"],
 					"price": booking_result["price"]
 				}
 			}
-		response = JSONResponse(content=response_data, status_code=200)
+			response = JSONResponse(content=response_data, status_code=200)
 		if not booking_result:
-			response_data = {None}
+			response_data = None
 			response = JSONResponse(content=response_data, status_code=200)
 	finally:
 		if "cursor" in locals():
@@ -384,10 +387,10 @@ async def get_uncheckBooking(user: dict = Depends(get_current_user)):
 
 
 class bookingRequest(BaseModel):
-	attractionId: int
-	date: str
-	time: str
-	price: str
+	attractionId: Any
+	date: Any
+	time: Any
+	price: Any
 	
 # 建立新的預定行程
 @app.post("/api/booking")
@@ -403,7 +406,8 @@ async def new_booking(bookInfo:bookingRequest, user: dict = Depends(get_current_
 		SELECT * FROM booking WHERE member_id = %s
 		'''
 		cursor.execute(check_booking_info_query, (user["id"],))
-		result = cursor.fetchall()
+		result = cursor.fetchone()
+		print("檢查user是否已有booking:" + str(result))
 
 		if result:
 			change_booking_info_query='''
@@ -411,15 +415,15 @@ async def new_booking(bookInfo:bookingRequest, user: dict = Depends(get_current_
 			SET attraction_id = %s, date = %s, time = %s, price = %s
 			WHERE member_id = %s
 			'''
-			cursor.execute(change_booking_info_query, (bookingRequest.attractionId, bookingRequest.date, bookingRequest.time, bookingRequest.price, user["id"]))
+			cursor.execute(change_booking_info_query, (bookInfo.attractionId, bookInfo.date, bookInfo.time, bookInfo.price, user["id"]))
 			conn.commit()
 			response_data = {"ok": True}
 			response = JSONResponse(content=response_data, status_code=200)
 		if not result:
 			add_booking_info_query='''
-			INSERT INTO booking (member_id, attaction_id, date, time, price) VALUES (%s, %s, %s, %s, %s)
+			INSERT INTO booking (member_id, attraction_id, date, time, price) VALUES (%s, %s, %s, %s, %s)
 			'''
-			cursor.execute(add_booking_info_query, (user["id"], bookingRequest.attractionId, bookingRequest.date, bookingRequest.time, bookingRequest.price))
+			cursor.execute(add_booking_info_query, (user["id"], bookInfo.attractionId, bookInfo.date, bookInfo.time, bookInfo.price))
 			conn.commit()
 			response_data = {"ok": True}
 			response = JSONResponse(content=response_data, status_code=200)
