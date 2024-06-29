@@ -72,6 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(data => {
                 if(data && data.data){
                     signinSignup.textContent = "登出系統";
+                    let userInfo = JSON.stringify(data.data);
+                    localStorage.setItem("userInfo", userInfo);
                 }
                 else{
                     signinSignup.textContent = "登入/註冊";
@@ -230,6 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (signinSignup) {
                     if (token) {
                         localStorage.removeItem("token");
+                        localStorage.removeItem("userInfo");
                         signinSignup.textContent = "登入/註冊";
                         window.location.reload();
                     }

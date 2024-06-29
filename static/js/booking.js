@@ -11,40 +11,13 @@ document.addEventListener("DOMContentLoaded", () =>{
 
     const contactNameInput = document.querySelector("#contact_name");
     const contactEmailInput = document.querySelector("#contact_email");
-
+    
     const main = document.querySelector(".main");
     const emptyBlock = document.querySelector(".empty__block");
     const token = localStorage.getItem("token");
     
-    // 獲取user資訊，帶入對應欄位
-    fetch("/api/user/auth", {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
-    })
-    .then(response => {
-        if(!response.ok){
-            throw new Error("Token 已到期或無效");
-        }
-        return response.json();
-    })
-    .then(res =>{
-        if(res.data == null){
-            window.location.href = '/';
-        }
-        else{
-            getBookingFun();
-            const userInfo = res.data;
-            const userName = userInfo.name;
-            const userEmail = userInfo.email;
-
-            userNameDisplay.textContent = userName;
-            contactNameInput.value = userName;
-            contactEmailInput.value = userEmail;
-        }
-    })
-
+    
+    
     // 獲取尚未下單的預定行程，帶入對應欄位
     const getBookingFun = async function (){
         try{
@@ -93,8 +66,52 @@ document.addEventListener("DOMContentLoaded", () =>{
         }catch (error) {
             console.error("Error", error);
         }
-    };    
+    };
+    
+    // 判斷登入狀態，獲取user資訊，帶入對應欄位
+    if(!token){
+        window.location.href = '/';
+    }
+    else{
+        getBookingFun();
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        const userName = userInfo.name;
+        const userEmail = userInfo.email;
 
+        userNameDisplay.textContent = userName;
+        contactNameInput.value = userName;
+        contactEmailInput.value = userEmail;
+    }
+    // fetch("/api/user/auth", {
+    //     method: "GET",
+    //     headers: {
+    //         "Authorization": `Bearer ${token}`
+    //     }
+    // })
+    // .then(response => {
+    //     if(!response.ok){
+    //         throw new Error("Token 已到期或無效");
+    //     }
+    //     return response.json();
+    // })
+    // .then(res =>{
+    //     if(res.data == null){
+    //         window.location.href = '/';
+    //     }
+    //     else{
+    //         getBookingFun();
+    //         const userInfo = res.data;
+    //         const userName = userInfo.name;
+    //         const userEmail = userInfo.email;
+
+    //         userNameDisplay.textContent = userName;
+    //         contactNameInput.value = userName;
+    //         contactEmailInput.value = userEmail;
+    //     }
+    // })
+
+    
+    // 移除行程
     const deleteFun = async function () {
         const token = localStorage.getItem("token");
         try{
