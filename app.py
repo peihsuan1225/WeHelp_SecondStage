@@ -455,6 +455,7 @@ async def delete_booking(user: dict = Depends(get_current_user)):
 		WHERE member_id = %s
 		'''
 		cursor.execute(delete_booking_query, (user["id"],))
+		conn.commit()
 		response_data = {"ok": True}
 		response = JSONResponse(content=response_data, status_code=200)
 	finally:

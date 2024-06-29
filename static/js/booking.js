@@ -7,12 +7,13 @@ document.addEventListener("DOMContentLoaded", () =>{
     const timeDisplay = document.querySelector("#time");
     const priceDisplay = document.querySelector("#price");
     const attrAddressDisplay = document.querySelector("#location");
+    const totalPraiceDisplay = document.querySelector("#total_price")
 
     const contactNameInput = document.querySelector("#contact_name");
     const contactEmailInput = document.querySelector("#contact_email");
 
     const main = document.querySelector(".main");
-    const emptyBlock = document.querySelector(".empty_block");
+    const emptyBlock = document.querySelector(".empty__block");
     const token = localStorage.getItem("token");
     
     // 獲取user資訊，帶入對應欄位
@@ -59,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () =>{
             }
             else{
                 const data = await response.json();
-                console.log(data)
                 if(data == null){
                     main.style.display = "none";
                     emptyBlock.style.display = "block";
@@ -70,15 +70,24 @@ document.addEventListener("DOMContentLoaded", () =>{
                     const attrName = bookingInfo.attraction.name;
                     const attrAddress = bookingInfo.attraction.address;
                     const bookingDate = bookingInfo.date;
-                    const bookingTime = bookingInfo.time;       
-                    const bookingPrice = bookingInfo.price;
+                    const bookingTime = bookingInfo.time;
+                    let bookingTimeWord = ""
+                    if(bookingTime === "morning"){
+                        bookingTimeWord = "早上 9 點到下午 4 點";
+                    }
+                    else if(bookingTime === "afternoon"){
+                        bookingTimeWord = "下午 2 點到晚上 9 點" 
+                    }
+                    const bookingPrice = ("新台幣 " + bookingInfo.price + " 元");
             
                     attrImgDisplay.style.backgroundImage = `url(${attrImg})`;
                     attrNameDisplay.textContent = attrName;
                     dateDisplay.textContent = bookingDate;
-                    timeDisplay.textContent = bookingTime;
+                       
+                    timeDisplay.textContent = bookingTimeWord;
                     priceDisplay.textContent = bookingPrice;
                     attrAddressDisplay.textContent = attrAddress;
+                    totalPraiceDisplay.textContent = bookingPrice;
                 }
             }     
         }catch (error) {
@@ -97,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () =>{
             });
 
             if(!response.ok){
-                const errorData = await response.json();
+                alert("移除行程錯誤");
             }
             else if(response.ok){
                 main.style.display = "none";

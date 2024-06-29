@@ -18,6 +18,7 @@
 .bookingInfos__block{
     display: flex;
     position: relative;
+    width: 980px;
     margin: 30px auto 40px auto;
 }
 .bookingInfos__pic{
@@ -30,11 +31,13 @@
     font-size: 16px;
 }
 .bookingInfos__text--title{
+    display: flex;
     color: #448899;
     font-weight: bold;
-    margin: 0 auto 10px 30px;
+    margin: 0 auto 20px 30px;
 }
 .bookingInfos__text{
+    display: flex;
     margin: 10px 0 10px 30px;
     color: #666666;
 }
@@ -54,7 +57,7 @@
 
 /* separator */
 .separator{
-    width: 1200px;
+    width: 100vw;
     border: 1px solid #E8E8E8;
     margin: 0 auto;
 }
@@ -68,17 +71,25 @@
     font-size: 19px;
     font-weight: bold;
     color: #666666;
+    margin-bottom: 20px;
 }
 .contact__textBlock{
     display: flex;
     font-size: 16px;
+    margin-bottom: 15px;
+    align-items: center;
 }
 .contact__text{
     color: #666666;
 }
 .contact__input{
     color: black;
+    font-size: 16px;
+    padding: 10px;
     font-weight: 500;
+    border: 1px solid #E8E8E8;
+    background-color: #FFFFFF;
+    border-radius: 5px;
 }
 .contact__text--remind{
     font-weight: bold;
@@ -94,25 +105,36 @@
     font-size: 19px;
     font-weight: bold;
     color: #666666;
+    margin-bottom: 20px;
 }
 .payment__textBlock{
     display: flex;
     font-size: 16px;
+    margin-bottom: 15px;
+    align-items: center;
 }
 .payment__text{
     color: #666666;
 }
 .payment__input{
     color: black;
+    font-size: 16px;
+    padding: 10px;
     font-weight: 500;
+    border: 1px solid #E8E8E8;
+    background-color: #FFFFFF;
+    border-radius: 5px;
 }
 
 /* confrim */
 .confirm__block{
     margin: 40px auto;
-    align-items: end;
+    text-align: end;
+    width: 980px;
 }
 .confirm__text{
+    display: flex;
+    justify-content: end;
     font-weight: bold;
     text-align: right;
     color: #666666;
@@ -125,9 +147,92 @@
     border-radius: 5px;
     padding: 10px 20px;
     margin: 22px 0 22px auto;
+    border: none;
+    cursor: pointer;
+    line-height: 16px;
 }
 
 /* empty booking */
-.empty_block{
+.empty__block{
     display: none;
+    margin: 30px auto 40px auto;
+    width: 980px;
+}
+
+/* 當視窗大小介於600-1200套用以下css */
+@media (min-width: 600px) and (max-width: 1000px){
+    .headline__textBlock {
+        width: calc(100vw - 200px);
+    }
+    .bookingInfos__block {
+        width: calc(100vw - 200px);
+        padding-right: 30px;
+    }
+    .contact__block {
+        width: calc(100vw - 200px);
+    }
+    .payment__block {
+        width: calc(100vw - 200px);
+    }
+    .confirm__block {
+        width: calc(100vw - 200px);
+    }
+    .separator {
+        width: calc(100vw - 10px);
+    }
+    .empty__block {
+        width: calc(100vw - 200px);
+    }
+
+}
+
+/* 當視窗大小介於360-600套用以下css */
+@media (min-width: 360px) and (max-width: 600px){
+    .headline__textBlock {
+        width: calc(100vw - 50px);
+        min-width: 340px;
+    }
+    .bookingInfos__block {
+        display: block;
+        width: calc(100vw - 50px);
+        min-width: 340px;
+    }
+    .bookingInfos__pic {
+        width: 100%;
+        min-height: 200px;
+    }
+    .bookingInfos__textBlock {
+        margin: 30px auto;
+        width: calc(100vw - 20px);
+        padding-bottom: 30px;
+    }
+    .bookingInfos__text--title {
+        margin-left: 0;
+    }
+    .bookingInfos__text {
+        margin-left: 0;
+    }
+    .bookingInfos__icon {
+        bottom: 0;
+        top: auto;
+    }
+    .contact__block {
+        width: calc(100vw - 50px);
+        min-width: 340px;
+    }
+    .payment__block {
+        width: calc(100vw - 50px);
+        min-width: 340px;
+    }
+    .confirm__block {
+        width: calc(100vw - 50px);
+        min-width: 340px;
+    }
+    .separator {
+        width: calc(100vw - 10px);
+    }
+    .empty__block {
+        width: calc(100vw - 50px);
+        min-width: 340px;
+    }
 }
