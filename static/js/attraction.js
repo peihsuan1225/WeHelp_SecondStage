@@ -102,10 +102,10 @@ document.addEventListener("DOMContentLoaded", () =>{
     });
 
     // 選擇時間顯示對應價格
-    const booktimeInput = document.querySelectorAll(".sectionProfile__input--bookTime");
+    const booktimeInputs = document.querySelectorAll(".sectionProfile__input--bookTime");
     const priceDiv = document.querySelector(".sectionProfile__text--bookPrice");
 
-    booktimeInput.forEach(input =>{
+    booktimeInputs.forEach(input =>{
         input.addEventListener("click", () =>{
             if(input.id === "morning"){
                 priceDiv.textContent = "新台幣 2000 元";
@@ -115,4 +115,90 @@ document.addEventListener("DOMContentLoaded", () =>{
             }
         })
     })
+
+    // 回傳預定資料
+    const bookingBtn = document.querySelector(".sectionProfile__btn");
+
+    const bookingFun = async function () {
+        const bookdateInput = document.querySelector(".sectionProfile__input--bookdate").value;
+        let booktimeInput = "";
+        booktimeInputs.forEach(timeinput => {
+            if (timeinput.checked) { 
+                booktimeInput = timeinput.id; 
+            }
+        });
+        const bookprice = document.querySelector(".sectionProfile__text--bookPrice").textContent;
+        const priceNumber = bookprice.match(/\d+/);
+
+        const request = {
+            attractionId: id,
+            date: bookdateInput,
+            time: booktimeInput,
+            price: priceNumber ? priceNumber[0] : ""
+        };
+  
+        try{
+            const token = localStorage.getItem("token");
+            const response = await fetch("/api/booking" ,{
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(request)
+            });
+            const data = await response.json();
+
+            if(!response.ok){
+                alert(data.message || "無法預定，請稍後再試") ;
+            }
+            else if(data.ok){
+                window.location.href = "/booking"
+            }
+        }
+        catch(error){
+            console.error("Error", error);
+        }
+    }
+
+    bookingBtn.addEventListener("click", () =>{
+        const bookdateInput = document.querySelector(".sectionProfile__input--bookdate").value;
+        let booktimeInput = "";
+        booktimeInputs.forEach(timeinput => {
+            if (timeinput.checked) { 
+                booktimeInput = timeinput.id; 
+            }
+        });
+
+        const signinSignup = document.querySelector("#signin_signup");
+        const token = localStorage.getItem("token");
+        fetch("/api/user/auth", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if(!response.ok){
+                signinSignup.click();
+            }
+            return response.json();
+        })
+        .then(data => {
+            if(data && data.data){
+                if(bookdateInput && booktimeInput){
+                    bookingFun();
+                }
+                else{
+                    alert("請選擇預定日期、時間")
+                }
+            }
+            else{
+                signinSignup.click();
+            }
+        })
+        .catch(error => {
+            console.error("Error", error);
+        });
+    });
 });

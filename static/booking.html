@@ -4,8 +4,113 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booking</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/booking.css"/>
+  <link rel="stylesheet" type="text/css" href="/static/css/base.css"/>
 </head>
 <body>
+  <div class="content">
+    <!-- Navigation Bar -->
+    <div class="navbar_insert"></div>
+ 
+    <!-- headline -->
+    <div class="headline__textBlock">
+      <div>您好，</div>
+      <div id="user_name"></div>
+      <div>，待預定的行程如下：</div>
+    </div>
+    
+    <div class="main">
+      <!-- booking infos -->
+      <div class="bookingInfos__block">
+        <div class="bookingInfos__pic"></div>
+        <div class="bookingInfos__textBlock">
+          <div class="bookingInfos__text--title">
+            <div>台北一日遊：</div>
+            <div id="attraction_name"></div>
+          </div>
+          <div class="bookingInfos__text">
+            <div class="bookingInfos__text--bold">日期：</div>
+            <div id="date"></div>
+          </div>
+          <div class="bookingInfos__text">
+            <div class="bookingInfos__text--bold">時間：</div>
+            <div id="time"></div>
+          </div>
+          <div class="bookingInfos__text">
+            <div class="bookingInfos__text--bold">費用：</div>
+            <div id="price"></div>
+          </div>
+          <div class="bookingInfos__text">
+            <div class="bookingInfos__text--bold">地點：</div>
+            <div id="location"></div>
+          </div>
+        </div>
+        <div class="bookingInfos__icon"></div>
+      </div>
+
+      <hr class="separator" />
+
+      <!-- contact form -->
+      <div class="contact__block">
+        <div class="contact__text--title">您的聯絡資訊</div>
+        <div class="contact__textBlock">
+          <div class="contact__text">聯絡姓名：</div>
+          <input class="contact__input" id="contact_name">
+        </div>
+        <div class="contact__textBlock">
+          <div class="contact__text">連絡信箱：</div>
+          <input class="contact__input" id="contact_email">
+        </div>
+        <div class="contact__textBlock">
+          <div class="contact__text">手機號碼：</div>
+          <input class="contact__input">
+        </div>
+        <div class="contact__text--remind">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
+      </div>
+
+      <hr class="separator" />
+
+      <!-- payment form -->
+      <div class="payment__block">
+        <div class="payment__text--title">信用卡付款資訊</div>
+        <div class="payment__textBlock">
+          <div class="payment__text">卡片號碼：</div>
+          <input class="payment__input">
+        </div>
+        <div class="payment__textBlock">
+          <div class="payment__text">過期時間：</div>
+          <input class="payment__input" placeholder="MM/YY">
+        </div>
+        <div class="payment__textBlock">
+          <div class="payment__text">驗證密碼：</div>
+          <input class="payment__input" placeholder="CVV">
+        </div>
+      </div>
+      
+      <hr class="separator" />
+      
+      <!-- confrim -->
+      <div class="confirm__block">
+        <div class="confirm__text">
+          <div>總價：</div>
+          <div id="total_price"></div>
+        </div>
+        <button class="confirm__btn">確認訂購並付款</button>
+      </div>
+    </div>
+    
+    <!-- empty booking -->
+    <div class="empty__block">目前沒有任何待預定的行程</div>
+    
+    <!-- Footer -->
+    <div class="footer_insert"></div>
+  </div>
+ 
   
+  <!-- dialog section -->
+  <div class="dialog_insert"></div>
+
+  <script src="/static/js/base.js" defer></script>
+  <script src="/static/js/booking.js" defer></script>
 </body>
 </html>
