@@ -82,34 +82,6 @@ document.addEventListener("DOMContentLoaded", () =>{
         contactNameInput.value = userName;
         contactEmailInput.value = userEmail;
     }
-    // fetch("/api/user/auth", {
-    //     method: "GET",
-    //     headers: {
-    //         "Authorization": `Bearer ${token}`
-    //     }
-    // })
-    // .then(response => {
-    //     if(!response.ok){
-    //         throw new Error("Token 已到期或無效");
-    //     }
-    //     return response.json();
-    // })
-    // .then(res =>{
-    //     if(res.data == null){
-    //         window.location.href = '/';
-    //     }
-    //     else{
-    //         getBookingFun();
-    //         const userInfo = res.data;
-    //         const userName = userInfo.name;
-    //         const userEmail = userInfo.email;
-
-    //         userNameDisplay.textContent = userName;
-    //         contactNameInput.value = userName;
-    //         contactEmailInput.value = userEmail;
-    //     }
-    // })
-
     
     // 移除行程
     const deleteFun = async function () {
@@ -137,5 +109,5 @@ document.addEventListener("DOMContentLoaded", () =>{
 
     deleteIcon.addEventListener("click", () =>{
         deleteFun();
-    });  
+    });
 });
