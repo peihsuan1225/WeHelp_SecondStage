@@ -11,7 +11,7 @@ from .utils import get_current_user, SECRET_KEY, ALGORITHM
 
 router = APIRouter()
 
-class signinRequest(BaseModel):
+class signupRequest(BaseModel):
 	name: str
 	email: str
 	password: str
@@ -22,7 +22,7 @@ class signinRequest(BaseModel):
 	
 # 註冊會員，驗證email是否已存在
 @router.post("/api/user")
-async def sign_up(signupInput: signinRequest):
+async def sign_up(signupInput: signupRequest):
 	try:
 		conn = connection_pool.get_connection()
 		cursor = conn.cursor(dictionary=True)
