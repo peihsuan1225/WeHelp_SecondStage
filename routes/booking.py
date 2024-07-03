@@ -79,7 +79,6 @@ async def new_booking(bookInfo:bookingRequest, user: dict = Depends(get_current_
 		'''
 		cursor.execute(check_booking_info_query, (user["id"],))
 		result = cursor.fetchone()
-		print("檢查user是否已有booking:" + str(result))
 
 		if result:
 			change_booking_info_query='''

@@ -110,4 +110,172 @@ document.addEventListener("DOMContentLoaded", () =>{
     deleteIcon.addEventListener("click", () =>{
         deleteFun();
     });
+
+    // 金流串接
+    TPDirect.card.setup({
+        // Display ccv field
+        fields: {
+            number: {
+                // css selector
+                element: '#card-number',
+                placeholder: '**** **** **** ****'
+            },
+            expirationDate: {
+                // DOM object
+                element: document.getElementById('card-expiration-date'),
+                placeholder: 'MM / YY'
+            },
+            ccv: {
+                element: '#card-ccv',
+                placeholder: 'ccv'
+            }
+        },  
+        styles: {
+            // Style all elements
+            'input': {
+                'color': 'gray'
+            },
+            // Styling ccv field
+            'input.ccv': {
+                // 'font-size': '16px'
+            },
+            // Styling expiration-date field
+            'input.expiration-date': {
+                // 'font-size': '16px'
+            },
+            // Styling card-number field
+            'input.card-number': {
+                // 'font-size': '16px'
+            },
+            // style focus state
+            ':focus': {
+                // 'color': 'black'
+            },
+            // style valid state
+            '.valid': {
+                'color': 'green'
+            },
+            // style invalid state
+            '.invalid': {
+                'color': 'red'
+            },
+            // Media queries
+            // Note that these apply to the iframe, not the root window.
+            '@media screen and (max-width: 400px)': {
+                'input': {
+                    'color': 'orange'
+                }
+            }
+        },
+        // 此設定會顯示卡號輸入正確後，會顯示前六後四碼信用卡卡號
+        isMaskCreditCardNumber: true,
+        maskCreditCardNumberRange: {
+            beginIndex: 6,
+            endIndex: 11
+        }
+    });
+
+    // 監測卡片輸入狀態
+    TPDirect.card.onUpdate(function (update) {
+        if (update.canGetPrime) {
+            // Enable submit button
+        } else {
+            // Disable submit button
+        }
+
+        if (update.status.number === 2) {
+            // Set number field to error
+        } else if (update.status.number === 0) {
+            // Set number field to success
+        }
+
+        if (update.status.expiry === 2) {
+            // Set expiration date field to error
+        } else if (update.status.expiry === 0) {
+            // Set expiration date field to success
+        }
+
+        if (update.status.ccv === 2) {
+            // Set ccv field to error
+        } else if (update.status.ccv === 0) {
+            // Set ccv field to success
+        }
+    });
+
+    // // 取得 Prime
+    // function onSubmit(event) {
+    //     event.preventDefault();
+
+    //     const tappayStatus = TPDirect.card.getTappayFieldsStatus();
+
+    //     if (tappayStatus.canGetPrime === false) {
+    //         alert('Cannot get prime');
+    //         return;
+    //     }
+
+    //     TPDirect.card.getPrime(function (result) {
+    //         if (result.status !== 0) {
+    //             alert('Get prime error ' + result.msg);
+    //             return;
+    //         }
+    //         alert('Get prime 成功，prime: ' + result.card.prime);
+
+    //         // Send prime to your server to pay with Pay by Prime API
+    //     });
+    // }
+    const submitPaymentBtn = document.querySelector(".confirm__btn");
+    submitPaymentBtn.addEventListener("click", () =>{
+        TPDirect.card.getPrime(function (result) {
+            if (result.status !== 0) {
+                alert('Get prime error ' + result.msg);
+                return;
+            }
+
+            alert('Get prime 成功，prime: ' + result.card.prime);
+
+            // 在這裡將 prime 發送到你的伺服器
+            const token = localStorage.getItem("token");
+            const userName = document.querySelector("#contact_name").value;
+            const userEmail = document.querySelector("#contact_email").value;
+            const userPhone = document.querySelector("#contact_phone").value;
+
+            const request = {
+                prime: result.card.prime,
+                order: {
+                    price:bookingInfo.price,
+                    trip: {
+                        attraction:{
+                            id:attraction.js.id,
+                            name:attrName,
+                            address:attrAddress,
+                            image:`url(${attrImg})`
+                        },
+                        date:bookingDate,
+                        time:bookingTime
+                    },
+                    contact: {
+                        name: userName,
+                        email: userEmail,
+                        phone: userPhone
+                    }
+                }
+            }
+            
+            fetch("/api/orders", {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(request)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });        
+        });
+    });
 });

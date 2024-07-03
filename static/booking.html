@@ -63,7 +63,7 @@
         </div>
         <div class="contact__textBlock">
           <div class="contact__text">手機號碼：</div>
-          <input class="contact__input">
+          <input class="contact__input" id="contact_phone">
         </div>
         <div class="contact__text--remind">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
       </div>
@@ -75,15 +75,18 @@
         <div class="payment__text--title">信用卡付款資訊</div>
         <div class="payment__textBlock">
           <div class="payment__text">卡片號碼：</div>
-          <input class="payment__input">
+          <div class="tpfield" id="card-number"></div>
+          <!-- <input class="payment__input"> -->
         </div>
         <div class="payment__textBlock">
           <div class="payment__text">過期時間：</div>
-          <input class="payment__input" placeholder="MM/YY">
+          <div class="tpfield" id="card-expiration-date"></div>
+          <!-- <input class="payment__input" placeholder="MM/YY"> -->
         </div>
         <div class="payment__textBlock">
           <div class="payment__text">驗證密碼：</div>
-          <input class="payment__input" placeholder="CVV">
+          <div class="tpfield" id="card-ccv"></div>
+          <!-- <input class="payment__input" placeholder="CVV"> -->
         </div>
       </div>
       
@@ -112,5 +115,9 @@
 
   <script src="/static/js/base.js" defer></script>
   <script src="/static/js/booking.js" defer></script>
+  <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
+  <script>
+      TPDirect.setupSDK(151850, 'app_omnLvfmxivLDN3HW9LwG3RnKuR0MgqP5WNN4buJMoivdHGFbJFkjDQmd6leG', 'sandbox')
+  </script>
 </body>
 </html>
