@@ -21,9 +21,9 @@ async def get_uncheckBooking(user: dict = Depends(get_current_user)):
 		conn = connection_pool.get_connection()
 		cursor = conn.cursor(dictionary=True)
 		get_booking_info_query='''
-		SELECT * FROM booking WHERE member_id = %s
+		SELECT * FROM booking WHERE member_id = %s AND payment_status = %s
 		'''
-		cursor.execute(get_booking_info_query, (user["id"],))
+		cursor.execute(get_booking_info_query, (user["id"],0))
 		booking_result = cursor.fetchone()
 
 		if booking_result:
@@ -75,18 +75,19 @@ async def new_booking(bookInfo:bookingRequest, user: dict = Depends(get_current_
 		cursor = conn.cursor(dictionary=True)
 		# 檢查是否已有預定資料
 		check_booking_info_query='''
-		SELECT * FROM booking WHERE member_id = %s
+		SELECT * FROM booking
+		WHERE member_id = %s AND payment_status = %s
 		'''
-		cursor.execute(check_booking_info_query, (user["id"],))
+		cursor.execute(check_booking_info_query, (user["id"], 0))
 		result = cursor.fetchone()
 
 		if result:
 			change_booking_info_query='''
 			UPDATE booking
 			SET attraction_id = %s, date = %s, time = %s, price = %s
-			WHERE member_id = %s
+			WHERE member_id = %s AND payment_status = %s
 			'''
-			cursor.execute(change_booking_info_query, (bookInfo.attractionId, bookInfo.date, bookInfo.time, bookInfo.price, user["id"]))
+			cursor.execute(change_booking_info_query, (bookInfo.attractionId, bookInfo.date, bookInfo.time, bookInfo.price, user["id"]),0)
 			conn.commit()
 			response_data = {"ok": True}
 			response = JSONResponse(content=response_data, status_code=200)
@@ -123,9 +124,9 @@ async def delete_booking(user: dict = Depends(get_current_user)):
 		cursor = conn.cursor(dictionary=True)
 		delete_booking_query='''
 		DELETE FROM booking
-		WHERE member_id = %s
+		WHERE member_id = %s AND payment_status = %s
 		'''
-		cursor.execute(delete_booking_query, (user["id"],))
+		cursor.execute(delete_booking_query, (user["id"], 0))
 		conn.commit()
 		response_data = {"ok": True}
 		response = JSONResponse(content=response_data, status_code=200)

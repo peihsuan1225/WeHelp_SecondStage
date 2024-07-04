@@ -121,14 +121,18 @@ def create_booking_table():
     
     create_booking_table_query = '''
     CREATE TABLE IF NOT EXISTS booking(
-        booking_id BIGINT PRIMARY KEY,
-        member_id BIGINT UNIQUE NOT NULL,
+        booking_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+        order_num VARCHAR(20) DEFAULT NULL,
+        member_id BIGINT NOT NULL,
         attraction_id BIGINT NOT NULL,
         date VARCHAR(255) NOT NULL,
         time VARCHAR(255) NOT NULL,
         price VARCHAR(255) NOT NULL,
-        create_at VARCHAR(255) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        payment_status VARCHAR(255) NOT NULL  
+        create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'booking time',
+        contact_name VARCHAR(255) DEFAULT NULL,
+        contact_email VARCHAR(255) DEFAULT NULL,
+        contact_phone VARCHAR(255) DEFAULT NULL,
+        payment_status CHAR(1) NOT NULL DEFAULT 0 COMMENT '0 Unpaid/Payment failed, 1 Paid'
     )
     '''
     cursor.execute(create_booking_table_query)
@@ -150,10 +154,12 @@ def create_payment_table():
     create_payment_table_query = '''
     CREATE TABLE IF NOT EXISTS payment(
         payment_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-        booking_id BIGINT UNIQUE NOT NULL,
+        booking_id BIGINT NOT NULL,
+        order_num VARCHAR(20) UNIQUE NOT NULL,
         member_id BIGINT NOT NULL,
-        create_at VARCHAR(255) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        payment_status VARCHAR(255) NOT NULL
+        create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        payment_status CHAR(1) NOT NULL COMMENT '0 Unpaid/Payment failed, 1 Paid',
+        FOREIGN KEY (booking_id) REFERENCES booking(booking_id)
     )
     '''
     cursor.execute(create_payment_table_query)

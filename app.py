@@ -19,7 +19,7 @@ app.include_router(user.router)
 app.include_router(attraction.router)
 app.include_router(mrt.router)
 app.include_router(booking.router)
-# app.include_router(order.router)
+app.include_router(order.router)
 
 app.mount("/static", StaticFiles(directory="static",html=True), name="static")
 

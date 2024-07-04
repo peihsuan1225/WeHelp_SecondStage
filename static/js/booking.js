@@ -16,7 +16,12 @@ document.addEventListener("DOMContentLoaded", () =>{
     const emptyBlock = document.querySelector(".empty__block");
     const token = localStorage.getItem("token");
     
-    
+    let bookingInfo = null;
+    let attrImg = null;
+    let attrName = null;
+    let attrAddress =null;
+    let bookingDate =null;
+    let bookingTime =null;
     
     // 獲取尚未下單的預定行程，帶入對應欄位
     const getBookingFun = async function (){
@@ -38,12 +43,12 @@ document.addEventListener("DOMContentLoaded", () =>{
                     emptyBlock.style.display = "block";
                 }
                 else{
-                    const bookingInfo = data.data;
-                    const attrImg = bookingInfo.attraction.image;
-                    const attrName = bookingInfo.attraction.name;
-                    const attrAddress = bookingInfo.attraction.address;
-                    const bookingDate = bookingInfo.date;
-                    const bookingTime = bookingInfo.time;
+                    bookingInfo = data.data;
+                    attrImg = bookingInfo.attraction.image;
+                    attrName = bookingInfo.attraction.name;
+                    attrAddress = bookingInfo.attraction.address;
+                    bookingDate = bookingInfo.date;
+                    bookingTime = bookingInfo.time;
                     let bookingTimeWord = ""
                     if(bookingTime === "morning"){
                         bookingTimeWord = "早上 9 點到下午 4 點";
@@ -175,54 +180,6 @@ document.addEventListener("DOMContentLoaded", () =>{
         }
     });
 
-    // 監測卡片輸入狀態
-    TPDirect.card.onUpdate(function (update) {
-        if (update.canGetPrime) {
-            // Enable submit button
-        } else {
-            // Disable submit button
-        }
-
-        if (update.status.number === 2) {
-            // Set number field to error
-        } else if (update.status.number === 0) {
-            // Set number field to success
-        }
-
-        if (update.status.expiry === 2) {
-            // Set expiration date field to error
-        } else if (update.status.expiry === 0) {
-            // Set expiration date field to success
-        }
-
-        if (update.status.ccv === 2) {
-            // Set ccv field to error
-        } else if (update.status.ccv === 0) {
-            // Set ccv field to success
-        }
-    });
-
-    // // 取得 Prime
-    // function onSubmit(event) {
-    //     event.preventDefault();
-
-    //     const tappayStatus = TPDirect.card.getTappayFieldsStatus();
-
-    //     if (tappayStatus.canGetPrime === false) {
-    //         alert('Cannot get prime');
-    //         return;
-    //     }
-
-    //     TPDirect.card.getPrime(function (result) {
-    //         if (result.status !== 0) {
-    //             alert('Get prime error ' + result.msg);
-    //             return;
-    //         }
-    //         alert('Get prime 成功，prime: ' + result.card.prime);
-
-    //         // Send prime to your server to pay with Pay by Prime API
-    //     });
-    // }
     const submitPaymentBtn = document.querySelector(".confirm__btn");
     submitPaymentBtn.addEventListener("click", () =>{
         TPDirect.card.getPrime(function (result) {
@@ -238,14 +195,14 @@ document.addEventListener("DOMContentLoaded", () =>{
             const userName = document.querySelector("#contact_name").value;
             const userEmail = document.querySelector("#contact_email").value;
             const userPhone = document.querySelector("#contact_phone").value;
-
+            // console.log(bookingInfo);
             const request = {
                 prime: result.card.prime,
                 order: {
                     price:bookingInfo.price,
                     trip: {
                         attraction:{
-                            id:attraction.js.id,
+                            id:bookingInfo.attraction.id,
                             name:attrName,
                             address:attrAddress,
                             image:`url(${attrImg})`
@@ -260,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () =>{
                     }
                 }
             }
-            
+
             fetch("/api/orders", {
                 method: 'POST',
                 headers: {
