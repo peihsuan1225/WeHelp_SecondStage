@@ -188,9 +188,8 @@ document.addEventListener("DOMContentLoaded", () =>{
                 return;
             }
 
-            alert('Get prime 成功，prime: ' + result.card.prime);
+            // alert('Get prime 成功，prime: ' + result.card.prime);
 
-            // 在這裡將 prime 發送到你的伺服器
             const token = localStorage.getItem("token");
             const userName = document.querySelector("#contact_name").value;
             const userEmail = document.querySelector("#contact_email").value;
@@ -228,7 +227,16 @@ document.addEventListener("DOMContentLoaded", () =>{
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
+                let order_number ="";
+                console.log(data);
+                console.log(data.data.payment.status)
+                if(data.data.payment.status === 1){
+                    order_number = data.data.number;
+                    window.location.href = `/thankyou?number=${order_number}`;
+                }
+                else{
+                    alert(`訂單號${order_number}，付款失敗`)
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);

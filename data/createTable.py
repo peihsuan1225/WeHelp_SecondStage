@@ -154,12 +154,12 @@ def create_payment_table():
     create_payment_table_query = '''
     CREATE TABLE IF NOT EXISTS payment(
         payment_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-        booking_id BIGINT NOT NULL,
         order_num VARCHAR(20) UNIQUE NOT NULL,
-        member_id BIGINT NOT NULL,
         create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         payment_status CHAR(1) NOT NULL COMMENT '0 Unpaid/Payment failed, 1 Paid',
-        FOREIGN KEY (booking_id) REFERENCES booking(booking_id)
+        msg VARCHAR(255),
+        bank_transaction_id VARCHAR(40),
+        rec_trade_id VARCHAR(20)
     )
     '''
     cursor.execute(create_payment_table_query)

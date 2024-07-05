@@ -3,6 +3,8 @@ from fastapi.responses import JSONResponse
 from fastapi import Depends
 from pydantic import BaseModel
 import json
+from datetime import datetime
+
 
 from .config import connection_pool
 from .utils import get_current_user
@@ -82,12 +84,13 @@ async def new_booking(bookInfo:bookingRequest, user: dict = Depends(get_current_
 		result = cursor.fetchone()
 
 		if result:
+			current_time = datetime.now()
 			change_booking_info_query='''
 			UPDATE booking
-			SET attraction_id = %s, date = %s, time = %s, price = %s
+			SET attraction_id = %s, date = %s, time = %s, price = %s, create_at = %s    
 			WHERE member_id = %s AND payment_status = %s
 			'''
-			cursor.execute(change_booking_info_query, (bookInfo.attractionId, bookInfo.date, bookInfo.time, bookInfo.price, user["id"]),0)
+			cursor.execute(change_booking_info_query, (bookInfo.attractionId, bookInfo.date, bookInfo.time, bookInfo.price, current_time, user["id"], 0))
 			conn.commit()
 			response_data = {"ok": True}
 			response = JSONResponse(content=response_data, status_code=200)
