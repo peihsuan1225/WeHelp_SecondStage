@@ -16,7 +16,12 @@ document.addEventListener("DOMContentLoaded", () =>{
     const emptyBlock = document.querySelector(".empty__block");
     const token = localStorage.getItem("token");
     
-    
+    let bookingInfo = null;
+    let attrImg = null;
+    let attrName = null;
+    let attrAddress =null;
+    let bookingDate =null;
+    let bookingTime =null;
     
     // 獲取尚未下單的預定行程，帶入對應欄位
     const getBookingFun = async function (){
@@ -38,12 +43,12 @@ document.addEventListener("DOMContentLoaded", () =>{
                     emptyBlock.style.display = "block";
                 }
                 else{
-                    const bookingInfo = data.data;
-                    const attrImg = bookingInfo.attraction.image;
-                    const attrName = bookingInfo.attraction.name;
-                    const attrAddress = bookingInfo.attraction.address;
-                    const bookingDate = bookingInfo.date;
-                    const bookingTime = bookingInfo.time;
+                    bookingInfo = data.data;
+                    attrImg = bookingInfo.attraction.image;
+                    attrName = bookingInfo.attraction.name;
+                    attrAddress = bookingInfo.attraction.address;
+                    bookingDate = bookingInfo.date;
+                    bookingTime = bookingInfo.time;
                     let bookingTimeWord = ""
                     if(bookingTime === "morning"){
                         bookingTimeWord = "早上 9 點到下午 4 點";
@@ -82,34 +87,6 @@ document.addEventListener("DOMContentLoaded", () =>{
         contactNameInput.value = userName;
         contactEmailInput.value = userEmail;
     }
-    // fetch("/api/user/auth", {
-    //     method: "GET",
-    //     headers: {
-    //         "Authorization": `Bearer ${token}`
-    //     }
-    // })
-    // .then(response => {
-    //     if(!response.ok){
-    //         throw new Error("Token 已到期或無效");
-    //     }
-    //     return response.json();
-    // })
-    // .then(res =>{
-    //     if(res.data == null){
-    //         window.location.href = '/';
-    //     }
-    //     else{
-    //         getBookingFun();
-    //         const userInfo = res.data;
-    //         const userName = userInfo.name;
-    //         const userEmail = userInfo.email;
-
-    //         userNameDisplay.textContent = userName;
-    //         contactNameInput.value = userName;
-    //         contactEmailInput.value = userEmail;
-    //     }
-    // })
-
     
     // 移除行程
     const deleteFun = async function () {
@@ -137,5 +114,133 @@ document.addEventListener("DOMContentLoaded", () =>{
 
     deleteIcon.addEventListener("click", () =>{
         deleteFun();
-    });  
+    });
+
+    // 金流串接
+    TPDirect.card.setup({
+        // Display ccv field
+        fields: {
+            number: {
+                // css selector
+                element: '#card-number',
+                placeholder: '**** **** **** ****'
+            },
+            expirationDate: {
+                // DOM object
+                element: document.getElementById('card-expiration-date'),
+                placeholder: 'MM / YY'
+            },
+            ccv: {
+                element: '#card-ccv',
+                placeholder: 'ccv'
+            }
+        },  
+        styles: {
+            // Style all elements
+            'input': {
+                'color': 'gray'
+            },
+            // Styling ccv field
+            'input.ccv': {
+                // 'font-size': '16px'
+            },
+            // Styling expiration-date field
+            'input.expiration-date': {
+                // 'font-size': '16px'
+            },
+            // Styling card-number field
+            'input.card-number': {
+                // 'font-size': '16px'
+            },
+            // style focus state
+            ':focus': {
+                // 'color': 'black'
+            },
+            // style valid state
+            '.valid': {
+                'color': 'green'
+            },
+            // style invalid state
+            '.invalid': {
+                'color': 'red'
+            },
+            // Media queries
+            // Note that these apply to the iframe, not the root window.
+            '@media screen and (max-width: 400px)': {
+                'input': {
+                    'color': 'orange'
+                }
+            }
+        },
+        // 此設定會顯示卡號輸入正確後，會顯示前六後四碼信用卡卡號
+        isMaskCreditCardNumber: true,
+        maskCreditCardNumberRange: {
+            beginIndex: 6,
+            endIndex: 11
+        }
+    });
+
+    const submitPaymentBtn = document.querySelector(".confirm__btn");
+    submitPaymentBtn.addEventListener("click", () =>{
+        TPDirect.card.getPrime(function (result) {
+            if (result.status !== 0) {
+                alert('Get prime error ' + result.msg);
+                return;
+            }
+
+            // alert('Get prime 成功，prime: ' + result.card.prime);
+
+            const token = localStorage.getItem("token");
+            const userName = document.querySelector("#contact_name").value;
+            const userEmail = document.querySelector("#contact_email").value;
+            const userPhone = document.querySelector("#contact_phone").value;
+            // console.log(bookingInfo);
+            const request = {
+                prime: result.card.prime,
+                order: {
+                    price:bookingInfo.price,
+                    trip: {
+                        attraction:{
+                            id:bookingInfo.attraction.id,
+                            name:attrName,
+                            address:attrAddress,
+                            image:`url(${attrImg})`
+                        },
+                        date:bookingDate,
+                        time:bookingTime
+                    },
+                    contact: {
+                        name: userName,
+                        email: userEmail,
+                        phone: userPhone
+                    }
+                }
+            }
+
+            fetch("/api/orders", {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(request)
+            })
+            .then(response => response.json())
+            .then(data => {
+                let order_number ="";
+                console.log(data);
+                console.log(data.data.payment.status)
+                if(data.data.payment.status === 1){
+                    order_number = data.data.number;
+                    window.location.href = `/thankyou?number=${order_number}`;
+                }
+                else{
+                    alert(`訂單號${order_number}，付款失敗`)
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });        
+        });
+    });
 });

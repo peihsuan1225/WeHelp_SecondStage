@@ -4,8 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thank You</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/thankyou.css"/>
+  <link rel="stylesheet" type="text/css" href="/static/css/base.css"/>
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <div class="navbar_insert"></div>
+    
+    <!-- Order Informations -->
+    <div class="orderInfo">
+      <div class="orderInfo__text--intro">預定行程成功，您的訂單資訊如下：</div>
+      <div class="orderInfo__block--orderNum">
+        <div>訂單編號</div>
+        <div id="order_num"></div>
+      </div>
+      <div class="orderInfo__block">
+        <div class="orderInfo__img"></div>
+        <div style="padding: 10px;">
+          <div class="orderInfo__block--inner">
+            <div class="orderInfo__text--title">景點：</div>
+            <div id="order_attr"></div>
+          </div>
+          <div class="orderInfo__block--inner">
+            <div class="orderInfo__text--title">日期：</div>
+            <div id="order_date"></div>
+          </div>
+          <div class="orderInfo__block--inner">
+            <div class="orderInfo__text--title">時間：</div>
+            <div id="order_time"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer_insert"></div>
+ 
   
+  <!-- dialog section -->
+  <div class="dialog_insert"></div>
+
+  <script src="/static/js/base.js" defer></script>
+  <script src="/static/js/thankyou.js" defer></script>
 </body>
 </html>
