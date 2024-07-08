@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi import Depends
 from pydantic import BaseModel
 import json
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 
 from .config import connection_pool
@@ -84,7 +84,9 @@ async def new_booking(bookInfo:bookingRequest, user: dict = Depends(get_current_
 		result = cursor.fetchone()
 
 		if result:
-			current_time = datetime.now()
+			tz = timezone(timedelta(hours=+8))
+			current_time = datetime.now(tz)
+			
 			change_booking_info_query='''
 			UPDATE booking
 			SET attraction_id = %s, date = %s, time = %s, price = %s, create_at = %s    

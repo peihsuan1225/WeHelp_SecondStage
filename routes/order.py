@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi import Depends
 from pydantic import BaseModel
 import json
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import random
 import requests
 
@@ -13,9 +13,10 @@ from .utils import get_current_user
 router = APIRouter()
 
 def generate_order_number():
-    now = datetime.now()
+    tz = timezone(timedelta(hours=+8))
+    current_time = datetime.now(tz)
     random_num = random.randint(10, 99)
-    return now.strftime("%Y%m%d%H%M") + str(random_num)
+    return current_time.strftime("%Y%m%d%H%M") + str(random_num)
 
 class Attraction(BaseModel):
     id: int
