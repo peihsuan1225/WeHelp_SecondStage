@@ -97,10 +97,12 @@ async def new_booking(bookInfo:bookingRequest, user: dict = Depends(get_current_
 			response_data = {"ok": True}
 			response = JSONResponse(content=response_data, status_code=200)
 		if not result:
+			tz = timezone(timedelta(hours=+8))
+			current_time = datetime.now(tz)
 			add_booking_info_query='''
-			INSERT INTO booking (member_id, attraction_id, date, time, price) VALUES (%s, %s, %s, %s, %s)
+			INSERT INTO booking (member_id, attraction_id, date, time, price, create_at) VALUES (%s, %s, %s, %s, %s, %s)
 			'''
-			cursor.execute(add_booking_info_query, (user["id"], bookInfo.attractionId, bookInfo.date, bookInfo.time, bookInfo.price))
+			cursor.execute(add_booking_info_query, (user["id"], bookInfo.attractionId, bookInfo.date, bookInfo.time, bookInfo.price, current_time))
 			conn.commit()
 			response_data = {"ok": True}
 			response = JSONResponse(content=response_data, status_code=200)

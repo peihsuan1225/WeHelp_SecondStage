@@ -130,10 +130,12 @@ async def new_order(orderInfo: orderRequest, user: dict = Depends(get_current_us
         cursor.execute(update_payment_status, (payment_status, order_num))
         conn.commit()
 
+        tz = timezone(timedelta(hours=+8))
+        current_time = datetime.now(tz) 
         create_payment_log ='''
-        INSERT INTO payment (order_num, payment_status, msg, bank_transaction_id, rec_trade_id) VALUES (%s, %s, %s, %s, %s)
+        INSERT INTO payment (order_num, create_at, payment_status, msg, bank_transaction_id, rec_trade_id) VALUES (%s, %s, %s, %s, %s, %s)
         '''
-        cursor.execute(create_payment_log, (order_num, payment_status, msg, bank_transaction_id, rec_trade_id))
+        cursor.execute(create_payment_log, (order_num, current_time, payment_status, msg, bank_transaction_id, rec_trade_id))
         conn.commit()
 
         response = JSONResponse(content=response_data, status_code=200)
