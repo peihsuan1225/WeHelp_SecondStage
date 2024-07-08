@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from datetime import datetime, timedelta
 import mysql.connector
 import jwt
+from datetime import datetime, timezone, timedelta
 
 from .config import connection_pool
 from .utils import get_current_user, SECRET_KEY, ALGORITHM
@@ -40,10 +41,13 @@ async def sign_up(signupInput: signupRequest):
 		# 建立新的會員資料
 		elif not result:
 			hashed_password = bcrypt.hash(signupInput.password)
+			tz = timezone(timedelta(hours=+8))
+			current_time = datetime.now(tz)
+			
 			insert_query='''
-			INSERT INTO member (name, email, password) VALUES (%s, %s, %s)
+			INSERT INTO member (name, email, password, created_at) VALUES (%s, %s, %s, %s)
 			'''
-			cursor.execute(insert_query, (signupInput.name, signupInput.email, hashed_password))
+			cursor.execute(insert_query, (signupInput.name, signupInput.email, hashed_password, current_time))
 			conn.commit()
 			response_data = {"ok": True}
 			response = JSONResponse(content=response_data, status_code=200)
