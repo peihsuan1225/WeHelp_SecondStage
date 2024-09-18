@@ -1,9 +1,9 @@
 # [Taipei Day Trip](http://52.9.113.1:8000)
 It's an e-commerce website designed for arranging one-day trips in Taipei.  
-![Homepage](https://drive.google.com/file/d/1bt2tRjw-ts4UaVzpDYB_cxDe9TUvIPN8/view?usp=drive_link)  
-![HomepageRWD](https://drive.google.com/file/d/1Gmq6R3F04hyt_h_9WhbvXCG9UmGyWKkG/view?usp=drive_link)  
-![Attractionpage](https://drive.google.com/file/d/1JwU4Uh6y8XWm1Q7EnvGV-sbeg3kRV5nw/view?usp=drive_link)  
-![Bookingpage](https://drive.google.com/file/d/1iZji4r09U5OQF-SVCBukE019Kjct6RlG/view?usp=drive_link)  
+![](https://drive.google.com/file/d/1bt2tRjw-ts4UaVzpDYB_cxDe9TUvIPN8/view?usp=drive_link)  
+![](https://drive.google.com/file/d/1Gmq6R3F04hyt_h_9WhbvXCG9UmGyWKkG/view?usp=drive_link)  
+![](https://drive.google.com/file/d/1JwU4Uh6y8XWm1Q7EnvGV-sbeg3kRV5nw/view?usp=drive_link)  
+![](https://drive.google.com/file/d/1iZji4r09U5OQF-SVCBukE019Kjct6RlG/view?usp=drive_link)  
 
 ---  
 This is a testing account for the website.  
