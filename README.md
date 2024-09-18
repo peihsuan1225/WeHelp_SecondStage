@@ -2,8 +2,8 @@
 It's an e-commerce website designed for arranging one-day trips in Taipei.  
 <img src="https://drive.google.com/uc?export=view&id=1bt2tRjw-ts4UaVzpDYB_cxDe9TUvIPN8" alt="Homepage" height="550"/>
 <img src="https://drive.google.com/uc?export=view&id=1Gmq6R3F04hyt_h_9WhbvXCG9UmGyWKkG" alt="HomepageRWD" height="550" />
-<img src="https://drive.google.com/uc?export=view&id=1JwU4Uh6y8XWm1Q7EnvGV-sbeg3kRV5nw" alt="Attractionpage"  height="415"/>
-<img src="https://drive.google.com/uc?export=view&id=1iZji4r09U5OQF-SVCBukE019Kjct6RlG" alt="Bookingpage" width="400"/>
+<img src="https://drive.google.com/uc?export=view&id=1JwU4Uh6y8XWm1Q7EnvGV-sbeg3kRV5nw" alt="Attractionpage"  height="400"/>
+<img src="https://drive.google.com/uc?export=view&id=1iZji4r09U5OQF-SVCBukE019Kjct6RlG" alt="Bookingpage" height="400"/>
 
 ---  
 This is a testing account for the website.  
